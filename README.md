@@ -1,31 +1,24 @@
-# SafetyManage Mobile — Mining v4.1
+# SafetyManage Mobile — Mining v4.1.1
 
-نسخه Corporate Branding, Preview Access & Dedicated Admin Key.
+این نسخه بدون ثبت‌نام و بدون فعال‌سازی باز می‌شود.
 
-## تغییرات اصلی
+## حالت مهمان
 
-- لوگوی سطح هلدینگ: **هلدینگ صنعتی معدنی فولاد یزد**
-- لوگوی سطح شرکت عملیاتی: **مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان / SISOO**
-- هر دو پروفایل در `BrandProfiles` قفل شده‌اند.
-- حساب Pending همه منوها را در حالت پیش‌نمایش می‌بیند، اما ثبت، ارسال و سوابق واقعی قفل هستند.
-- هفت تم حرفه‌ای قابل انتخاب است.
-- پاک‌کردن رکوردهای محلی از بازنشانی کامل دستگاه جدا شده است.
-- مسیر اختصاصی شش‌رقمی برای حساب رزروشده دکتر میثم کوهساری اضافه شده است.
-- کلید خام در GitHub، HTML، config.js یا Apps Script قرار ندارد.
-- کلید پس از نخستین استفاده به RequestID و DeviceID همان حساب متصل می‌شود.
-- پنج تلاش ناموفق باعث قفل موقت ۳۰ دقیقه‌ای می‌شود.
+- همه منوهای اصلی دیده می‌شوند.
+- کاربر می‌تواند معدن/مجتمع و سایت را برای پیش‌نمایش تغییر دهد.
+- منوهای تخصصی معدن، کارخانه یا اکتشاف مطابق سایت انتخاب‌شده نمایش داده می‌شوند.
+- ثبت، ارسال، مجوز کار، بازرسی، ارزیابی ریسک و حادثه قفل هستند.
+- سوابق، اقدامات اصلاحی و KPIهای واقعی نمایش داده نمی‌شوند.
+- دکمه «ثبت‌نام / فعال‌سازی» فرم درخواست حساب را باز می‌کند.
+- پس از ثبت درخواست، محیط به‌صورت Pending Preview باز می‌ماند.
+- پس از دریافت Access Token، قفل عملیات برداشته می‌شود.
 
 ## Web App
 
-`https://script.google.com/macros/s/AKfycbzvrVe9q3m4RMil5ZtjvXTQwhIWHmzxgFjJ7wtdMt2fAQs3pMQ6mVutoAhDJtTdHFttUA/exec`
+https://script.google.com/macros/s/AKfycby2F772UBGmJOmnOvwrzmlFYd1DNvbucufvo7IGtRiEGK3qz0dRSlHeTSSPSrl1gGpgdw/exec
 
-## استقرار
+رشته URL ارسالی شامل دو نشانی چسبیده بود. نسخه معتبر و درج‌شده در `config.js` فقط URL منفرد بالا است.
 
-1. `Code.gs` را با `apps-script/SafetyManage_Corporate_Access_Gateway_v4_1.gs` جایگزین کنید.
-2. تابع `initializeCorporateAccessV41` را اجرا کنید.
-3. Deployment موجود را با New version به‌روزرسانی کنید.
-4. محتوای این بسته را در GitHub جایگزین کنید.
+## Commit
 
-## پیام Commit
-
-`feat: add locked corporate branding pending preview themes and dedicated co-owner key`
+feat: enable guest preview with locked HSE modules and update Apps Script endpoint

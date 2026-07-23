@@ -9,7 +9,7 @@
 <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>SafetyManage Mobile — Mining | Corporate Access v4.1</title>
+<title>SafetyManage Mobile — Mining | Guest Preview v4.1.1</title>
 <style>
 :root{
   --bg:#eef2f6;--surface:#fff;--surface-2:#f7f9fb;--ink:#111827;--muted:#667085;
@@ -364,8 +364,8 @@ button:disabled{cursor:not-allowed;opacity:.55}
   </div>
 </header>
 <div class="preview-banner hidden" id="previewBanner">
-  <div><b>حساب هنوز فعال نشده است</b><small>همه منوها قابل مشاهده‌اند، اما ثبت، ارسال و سوابق واقعی تا زمان تأیید قفل هستند.</small></div>
-  <button class="btn btn-primary" id="openActivationPanel" type="button">فعال‌سازی</button>
+  <div><b id="previewBannerTitle">نسخه در حالت پیش‌نمایش محدود باز است</b><small id="previewBannerText">منوها و ساختار تخصصی قابل مشاهده‌اند؛ ثبت، ارسال و داده‌های واقعی تا زمان فعال‌سازی قفل هستند.</small></div>
+  <button class="btn btn-primary" id="openActivationPanel" type="button">ثبت‌نام / فعال‌سازی</button>
 </div>
 
 <main>
@@ -501,12 +501,12 @@ button:disabled{cursor:not-allowed;opacity:.55}
 
 
   <div class="context-card hidden" id="contextManager">
-    <h3>تغییر محدوده مدیریتی</h3>
+    <h3 id="contextManagerTitle">انتخاب محدوده پیش‌نمایش</h3>
     <div class="context-grid">
       <div class="field"><label>معدن / مجتمع</label><select id="contextOrganization"></select></div>
       <div class="field"><label>سایت عملیاتی</label><select id="contextSite"></select></div>
     </div>
-    <div class="notice" style="margin-top:9px">این انتخاب فقط برای نقش‌های مدیریتی نمایش داده می‌شود و دامنه فرم‌ها، واحدها، برند و داشبورد را تغییر می‌دهد.</div>
+    <div class="notice" id="contextManagerNotice" style="margin-top:9px">در حالت مهمان فقط برند، واحدها و منوهای تخصصی تغییر می‌کنند؛ هیچ داده واقعی نمایش داده یا ارسال نمی‌شود.</div>
   </div>
 
   <div class="card settings-group">
@@ -572,12 +572,12 @@ button:disabled{cursor:not-allowed;opacity:.55}
 <script src="./config.js"></script>
 <script>
 
-const APP_VERSION='4.1.0';
+const APP_VERSION='4.1.1';
 const PUBLIC_CONFIG=window.MANAGESAFETY_CONFIG||{};
 const DEFAULT_ENDPOINT=String(PUBLIC_CONFIG.endpoint||'').trim();
 const SPONSOR_NAME=String(PUBLIC_CONFIG.sponsor||'سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید').trim();
-const STORE_KEY='safetymanage_mobile_v4_1';
-const PREVIOUS_STORE_KEY='safetymanage_mobile_v4';
+const STORE_KEY='safetymanage_mobile_v4_1_1';
+const PREVIOUS_STORE_KEY='safetymanage_mobile_v4_1';
 const LEGACY_STORE_KEY='managesafety_mobile_v1';
 
 const defaultUnits=[
@@ -711,12 +711,25 @@ function isElevatedRole(role=profile().systemRole){
   return ['SystemOwner','SystemAdmin','HoldingHSEManager'].includes(role);
 }
 function activeOrganizationCode(){
-  if(isElevatedRole()&&state.context?.organizationCode)return state.context.organizationCode;
+  if((isElevatedRole()||isPreviewMode())&&state.context?.organizationCode)return state.context.organizationCode;
   return profile().organizationCode||'MINE-BENOYD';
 }
 function activeSiteCode(){
-  if(isElevatedRole()&&state.context?.siteCode)return state.context.siteCode;
+  if((isElevatedRole()||isPreviewMode())&&state.context?.siteCode)return state.context.siteCode;
   return profile().siteCode||'BENOYD-MAIN';
+}
+function ensurePreviewContext(){
+  if(!isPreviewMode())return;
+  const orgs=state.catalog.organizations.filter(x=>String(x.Active).toUpperCase()!=='FALSE');
+  const preferredOrg=profile().organizationCode||state.context?.organizationCode||'MINE-BENOYD';
+  const selectedOrg=orgs.some(x=>x.OrganizationCode===preferredOrg)?preferredOrg:(orgs[0]?.OrganizationCode||'MINE-BENOYD');
+  const sites=state.catalog.sites.filter(x=>x.OrganizationCode===selectedOrg&&String(x.Active).toUpperCase()!=='FALSE');
+  const preferredSite=profile().siteCode||state.context?.siteCode;
+  state.context={
+    organizationCode:selectedOrg,
+    siteCode:sites.some(x=>x.SiteCode===preferredSite)?preferredSite:(sites[0]?.SiteCode||'')
+  };
+  persist();
 }
 function organizationByCode(code){
   return state.catalog.organizations.find(x=>x.OrganizationCode===code)||{};
@@ -982,6 +995,7 @@ document.getElementById('accessRequestForm').addEventListener('submit',async e=>
       },
       lastCheckedAt:iso()
     };
+    state.context={organizationCode:request.organizationCode,siteCode:request.siteCode};
     persist();
     const code=document.getElementById('aActivationCode').value.trim();
     if(code)await activateByCode(code);
@@ -996,7 +1010,11 @@ document.getElementById('checkRequestStatus').onclick=async()=>{try{await checkR
 document.getElementById('activateByCode').onclick=async()=>{try{await activateByCode(document.getElementById('pendingActivationCode').value)}catch(err){toast(String(err.message||err))}};
 document.getElementById('activateDedicatedAdmin').onclick=async()=>{try{await activateDedicatedAdmin(document.getElementById('dedicatedAdminPin').value)}catch(err){toast(String(err.message||err))}};
 document.getElementById('openPreviewMode').onclick=()=>showPreviewApp();
-document.getElementById('openActivationPanel').onclick=()=>{showAuth();renderPending()};
+document.getElementById('openActivationPanel').onclick=()=>{
+  showAuth();
+  if(state.account.requestId)renderPending();
+  else{showAuthSection('register');populateCatalogSelectors()}
+};
 document.getElementById('resetAccessRequest').onclick=()=>{
   if(!confirm('درخواست ذخیره‌شده روی این دستگاه پاک و فرم جدید باز شود؟'))return;
   state.account=blankAccount();persist();showAuthSection('register');populateCatalogSelectors();
@@ -1006,24 +1024,42 @@ document.getElementById('retryBootstrap').onclick=()=>boot();
 function applyProfile(){
   const p=profile(),orgCode=activeOrganizationCode(),siteCode=activeSiteCode();
   const org=organizationByCode(orgCode),site=siteByCode(siteCode),operatingBrand=brandForOrganization(orgCode),holdingBrand=holdingBrandForOrganization(orgCode);
-  document.getElementById('profileSubtitle').textContent=`${p.fullName||'کاربر'} · ${p.jobTitle||roleLabel(p.systemRole)}`;
-  document.getElementById('legalBrandName').textContent=org.LegalEntityName||brand.LegalName||'سامانه پرتفوی معدن و کارخانه';
+  const guestPreview=isPreviewMode()&&!state.account.requestId;
+  const pendingPreview=isPreviewMode()&&Boolean(state.account.requestId);
+
+  document.getElementById('profileSubtitle').textContent=guestPreview
+    ?'بازدیدکننده · پیش‌نمایش محدود'
+    :(pendingPreview?`${p.fullName||'کاربر'} · در انتظار تأیید`:`${p.fullName||'کاربر'} · ${p.jobTitle||roleLabel(p.systemRole)}`);
+  document.getElementById('legalBrandName').textContent=org.LegalEntityName||operatingBrand.LegalName||'سامانه پرتفوی معدن و کارخانه';
   document.getElementById('activeOrganizationLabel').textContent=org.OrganizationName||p.organizationName||orgCode;
   document.getElementById('activeSiteLabel').textContent=site.SiteName||p.siteName||siteCode;
-  document.getElementById('accountName').textContent=p.fullName||'—';
-  document.getElementById('accountJobTitle').textContent=p.jobTitle||'—';
+  document.getElementById('accountName').textContent=guestPreview?'بازدیدکننده مهمان':(p.fullName||'—');
+  document.getElementById('accountJobTitle').textContent=guestPreview?'بدون حساب فعال':(p.jobTitle||'—');
   document.getElementById('accountOrganization').textContent=org.OrganizationName||p.organizationName||orgCode;
   const visibleUnit=allowedUnits().find(u=>u.UnitCode===p.unitCode)||allowedUnits()[0]||unitByCode(p.unitCode);
   document.getElementById('accountScope').textContent=`${site.SiteName||p.siteName||siteCode} / ${visibleUnit.UnitName||p.unitName||'—'}`;
-  document.getElementById('accountRole').textContent=roleLabel(p.systemRole);
-  document.getElementById('accountStatus').textContent=isPreviewMode()?'در انتظار تأیید':(p.accountStatus||'Active');
-  document.getElementById('fReporter').value=p.fullName||'';
-  document.getElementById('fRole').value=p.jobTitle||roleLabel(p.systemRole);
+  document.getElementById('accountRole').textContent=guestPreview?'GuestPreview':roleLabel(p.systemRole);
+  document.getElementById('accountStatus').textContent=guestPreview?'پیش‌نمایش بدون فعال‌سازی':(pendingPreview?'در انتظار تأیید':(p.accountStatus||'Active'));
+  document.getElementById('fReporter').value=guestPreview?'بازدیدکننده مهمان':(p.fullName||'');
+  document.getElementById('fRole').value=guestPreview?'پیش‌نمایش محدود':(p.jobTitle||roleLabel(p.systemRole));
+
   const admin=['SystemOwner','SystemAdmin'].includes(p.systemRole);
   document.getElementById('adminTools').classList.toggle('hidden',!admin);
   document.getElementById('adminEndpoint').value=admin?DEFAULT_ENDPOINT:'';
-  document.getElementById('contextManager').classList.toggle('hidden',!isElevatedRole());
-  document.getElementById('portfolioPanel').classList.toggle('visible',isElevatedRole());
+
+  const contextAllowed=isElevatedRole()||isPreviewMode();
+  document.getElementById('contextManager').classList.toggle('hidden',!contextAllowed);
+  document.getElementById('contextManagerTitle').textContent=isPreviewMode()?'انتخاب محدوده پیش‌نمایش':'تغییر محدوده مدیریتی';
+  document.getElementById('contextManagerNotice').textContent=isPreviewMode()
+    ?'در حالت مهمان فقط برند، سایت، واحدها و منوهای تخصصی تغییر می‌کنند؛ ثبت و داده واقعی قفل است.'
+    :'این انتخاب دامنه فرم‌ها، واحدها، برند و داشبورد مدیریتی را تغییر می‌دهد.';
+  document.getElementById('portfolioPanel').classList.toggle('visible',isElevatedRole()&&!isPreviewMode());
+
+  document.getElementById('previewBannerTitle').textContent=guestPreview?'نسخه بدون فعال‌سازی باز شده است':'درخواست شما هنوز فعال نشده است';
+  document.getElementById('previewBannerText').textContent=guestPreview
+    ?'همه منوهای عمومی و تخصصی قابل مشاهده‌اند؛ برای ثبت و ارسال باید حساب ایجاد و فعال شود.'
+    :'منوها قابل مشاهده‌اند؛ ثبت، ارسال و سوابق واقعی تا زمان تأیید قفل هستند.';
+
   applyBrand(holdingBrand,operatingBrand,org);
   renderContextManager();
 }
@@ -1053,7 +1089,7 @@ function applyBrand(holdingBrand,operatingBrand,org){
   document.getElementById('operatingBrandLock').textContent=String(operatingBrand.BrandLocked).toUpperCase()==='TRUE'?'🔒 قفل':'برند مستقل';
 }
 function renderContextManager(){
-  if(!isElevatedRole())return;
+  if(!(isElevatedRole()||isPreviewMode()))return;
   const orgs=state.catalog.organizations.filter(x=>String(x.Active).toUpperCase()!=='FALSE');
   const orgSelect=document.getElementById('contextOrganization');
   orgSelect.innerHTML=orgs.map(x=>`<option value="${esc(x.OrganizationCode)}">${esc(x.OrganizationName)}</option>`).join('');
@@ -1061,7 +1097,7 @@ function renderContextManager(){
   renderContextSites();
 }
 function renderContextSites(){
-  if(!isElevatedRole())return;
+  if(!(isElevatedRole()||isPreviewMode()))return;
   const org=document.getElementById('contextOrganization').value||activeOrganizationCode();
   const sites=state.catalog.sites.filter(x=>x.OrganizationCode===org&&String(x.Active).toUpperCase()!=='FALSE');
   const siteSelect=document.getElementById('contextSite');
@@ -1176,7 +1212,7 @@ function allowedUnits(){
   const p=profile();
   const all=state.catalog.units.filter(u=>String(u.Active).toUpperCase()!=='FALSE');
   const org=activeOrganizationCode(),site=activeSiteCode();
-  if(isElevatedRole(p.systemRole))return all.filter(u=>u.OrganizationCode===org&&(!site||u.SiteCode===site));
+  if(isPreviewMode()||isElevatedRole(p.systemRole))return all.filter(u=>u.OrganizationCode===org&&(!site||u.SiteCode===site));
   if(['MineHSEManager','FactoryHSEManager'].includes(p.systemRole))return all.filter(u=>u.OrganizationCode===p.organizationCode&&(!site||u.SiteCode===site));
   return all.filter(u=>u.UnitCode===p.unitCode);
 }
@@ -1784,6 +1820,7 @@ async function boot(){
   try{
     showAuthSection('register');
     await loadPublicCatalog();
+    ensurePreviewContext();
     if(state.account.status==='Active'&&state.account.accessToken){
       showApp();
       validateSession();
@@ -1791,7 +1828,7 @@ async function boot(){
     }else if(state.account.requestId){
       showPreviewApp();
     }else{
-      showAuth();showAuthSection('register');populateCatalogSelectors();
+      showPreviewApp();
     }
   }catch(err){
     document.getElementById('authErrorText').textContent=String(err.message||err);

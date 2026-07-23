@@ -1,4 +1,4 @@
-const CACHE='safetymanage-corporate-v4-1';
+const CACHE='safetymanage-guest-preview-v4-1-1';
 const FILES=['./','./index.html','./config.js','./manifest.webmanifest','./icons/icon.svg','./icons/icon-maskable.svg','./icons/brand-sisoo-fallback.svg','./icons/brand-generic-fallback.svg','./icons/brand-foulad-yazd-fallback.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)));

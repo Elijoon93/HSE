@@ -1,7 +1,7 @@
 {
-  "name": "SafetyManage Mobile — Mining v4.1",
+  "name": "SafetyManage Mobile — Mining v4.1.1",
   "short_name": "SafetyManage",
-  "description": "سامانه پرتفوی HSE با برند قفل‌شده، پیش‌نمایش محدود و کنترل دسترسی سازمانی",
+  "description": "سامانه موبایل HSE با پیش‌نمایش مهمان و منوهای عملیاتی قفل‌شده تا زمان فعال‌سازی",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

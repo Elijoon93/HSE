@@ -1,0 +1,16 @@
+انتشار GitHub Pages نسخه v4.1.1
+
+1. فایل ZIP را Extract کنید.
+2. محتوای آن را در Repository فعلی جایگزین کنید.
+3. پوشه .github و فایل .nojekyll را نگه دارید.
+4. Commit message:
+
+feat: enable guest preview with locked HSE modules and update Apps Script endpoint
+
+5. Commit changes را بزنید.
+6. در Actions موفقیت Deploy GitHub Pages را کنترل کنید.
+
+Web App endpoint:
+https://script.google.com/macros/s/AKfycby2F772UBGmJOmnOvwrzmlFYd1DNvbucufvo7IGtRiEGK3qz0dRSlHeTSSPSrl1gGpgdw/exec
+
+برای این تغییر فرانت‌اند، ایجاد Deployment جدید در Apps Script لازم نیست.
