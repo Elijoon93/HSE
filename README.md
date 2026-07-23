@@ -1,43 +1,31 @@
-# SafetyManage Mobile — Mining
+# SafetyManage Mobile — Mining v4.1
 
-وب‌اپلیکیشن موبایل عملیات و گزارش‌دهی روزمره HSE معدن.
+نسخه Corporate Branding, Preview Access & Dedicated Admin Key.
 
-## حامی، مالک و ناظر پروژه
+## تغییرات اصلی
 
-**سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید**  
-**Saeed Dahiri Dehnavi — HSE Supervisor, Benoyd Mine**
+- لوگوی سطح هلدینگ: **هلدینگ صنعتی معدنی فولاد یزد**
+- لوگوی سطح شرکت عملیاتی: **مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان / SISOO**
+- هر دو پروفایل در `BrandProfiles` قفل شده‌اند.
+- حساب Pending همه منوها را در حالت پیش‌نمایش می‌بیند، اما ثبت، ارسال و سوابق واقعی قفل هستند.
+- هفت تم حرفه‌ای قابل انتخاب است.
+- پاک‌کردن رکوردهای محلی از بازنشانی کامل دستگاه جدا شده است.
+- مسیر اختصاصی شش‌رقمی برای حساب رزروشده دکتر میثم کوهساری اضافه شده است.
+- کلید خام در GitHub، HTML، config.js یا Apps Script قرار ندارد.
+- کلید پس از نخستین استفاده به RequestID و DeviceID همان حساب متصل می‌شود.
+- پنج تلاش ناموفق باعث قفل موقت ۳۰ دقیقه‌ای می‌شود.
 
-## ارتباط و سفارش
+## Web App
 
-LinkedIn: https://www.linkedin.com/in/saeed-dahiri-dehnavi-668a0b173
+`https://script.google.com/macros/s/AKfycbzvrVe9q3m4RMil5ZtjvXTQwhIWHmzxgFjJ7wtdMt2fAQs3pMQ6mVutoAhDJtTdHFttUA/exec`
 
-## انتشار روی GitHub Pages
+## استقرار
 
-1. یک Repository با نام پیشنهادی `safetymanage-mobile-mining` بسازید.
-2. فایل‌های این بسته را در ریشه Repository قرار دهید.
-3. Branch اصلی را `main` قرار دهید.
-4. در `Settings > Pages`، منبع انتشار را `GitHub Actions` انتخاب کنید.
-5. Workflow موجود در `.github/workflows/pages.yml` سایت را منتشر می‌کند.
+1. `Code.gs` را با `apps-script/SafetyManage_Corporate_Access_Gateway_v4_1.gs` جایگزین کنید.
+2. تابع `initializeCorporateAccessV41` را اجرا کنید.
+3. Deployment موجود را با New version به‌روزرسانی کنید.
+4. محتوای این بسته را در GitHub جایگزین کنید.
 
-## اتصال Google Sheets
+## پیام Commit
 
-- نشانی Apps Script Web App در `config.js` قرار دارد.
-- توکن داخل سورس عمومی نیست.
-- کاربر مجاز توکن را یک بار در تنظیمات برنامه وارد می‌کند.
-- توکن در مرورگر همان دستگاه ذخیره می‌شود.
-
-## دامنه نسخه فعلی
-
-- ثبت وضعیت ناایمن
-- بازرسی
-- حادثه و شبه‌حادثه
-- مجوز کار
-- جلسه ایمنی
-- گزارش روزانه
-- اقدام اصلاحی
-- ارسال داده به Google Sheets
-- صف آفلاین
-
-## توسعه تخصصی بعدی
-
-جزئیات در `ROADMAP.md` آمده است.
+`feat: add locked corporate branding pending preview themes and dedicated co-owner key`

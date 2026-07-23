@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<meta name="description" content="SafetyManage Mobile — Mining؛ وب‌اپلیکیشن موبایل عملیات و گزارش‌دهی HSE معدن">
+<meta name="description" content="سامانه موبایل HSE معدن و کارخانه با برند سازمانی، پیش‌نمایش محدود و کنترل دسترسی پرتفوی">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>SafetyManage Mobile — Mining</title>
+<title>SafetyManage Mobile — Mining | Corporate Access v4.1</title>
 <style>
 :root{
   --bg:#eef2f6;--surface:#fff;--surface-2:#f7f9fb;--ink:#111827;--muted:#667085;
@@ -112,19 +112,248 @@ main{padding:18px}
  .app{min-height:calc(100dvh - 48px);border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(15,23,42,.16)}
  .bottom-nav{bottom:24px;border-radius:0 0 28px 28px}
 }
+
+.hidden{display:none!important}
+.auth-shell{min-height:100dvh;padding:22px 14px 40px;display:flex;align-items:flex-start;justify-content:center;background:linear-gradient(145deg,#0b1220 0,#172554 48%,#e8eef6 48%,#eef2f6 100%)}
+.auth-panel{width:min(100%,520px);margin-top:18px;background:#fff;border:1px solid #dce3ec;border-radius:26px;box-shadow:0 28px 80px rgba(15,23,42,.25);overflow:hidden}
+.auth-head{padding:24px 22px 18px;background:linear-gradient(140deg,#0b1220,#172554);color:#fff}
+.auth-brand{display:flex;gap:12px;align-items:center}
+.auth-brand .logo{background:#2563eb;box-shadow:0 9px 25px rgba(37,99,235,.35)}
+.auth-head h1{font-size:17px;margin:0 0 4px}.auth-head p{font-size:10.5px;line-height:1.9;color:#cbd5e1;margin:0}
+.auth-body{padding:18px}
+.auth-body .page-title{margin:0 0 14px}
+.auth-note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;padding:11px 12px;border-radius:14px;font-size:10.5px;line-height:1.9}
+.auth-status-card{border:1px solid #dbe4ef;border-radius:18px;padding:16px;background:#f8fafc}
+.auth-status-line{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}
+.auth-request-id{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;direction:ltr;text-align:left;background:#fff;border:1px dashed #b8c4d4;border-radius:12px;padding:10px;font-size:11px;overflow-wrap:anywhere}
+.account-card{display:grid;gap:7px}
+.account-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed #e2e8f0;padding:8px 0;font-size:10.5px}.account-row:last-child{border-bottom:0}
+.account-row span{color:var(--muted)}.account-row b{text-align:left}
+.role-pill{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:9px;font-weight:900}
+.admin-details{border:1px solid #dce3ec;border-radius:16px;background:#f8fafc;padding:0 13px}.admin-details summary{cursor:pointer;padding:13px 0;font-size:11px;font-weight:900}.admin-details>div{padding:0 0 13px}
+.readonly-field{background:#f3f6fa!important;color:#64748b!important}
+@media(min-width:720px){.auth-shell{padding-top:42px}.auth-panel{margin-top:0}}
+
+
+.module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.module-card{border:1px solid var(--line);border-radius:18px;background:#fff;padding:15px 12px;text-align:right;box-shadow:0 7px 22px rgba(15,23,42,.05);min-height:132px;display:flex;flex-direction:column;justify-content:space-between;transition:.18s}
+.module-card:active{transform:scale(.98)}
+.module-icon{width:38px;height:38px;border-radius:13px;background:#eaf2ff;color:#1d4ed8;display:grid;place-items:center;font-size:18px;font-weight:900}
+.module-card h4{font-size:12px;margin:10px 0 4px}.module-card p{font-size:9.6px;color:var(--muted);line-height:1.75;margin:0}
+.module-card .module-tag{display:inline-flex;width:max-content;margin-top:9px;padding:4px 7px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:8.5px;font-weight:800}
+.form-section{border:1px solid #e2e8f0;border-radius:17px;padding:13px;background:#fbfdff}
+.form-section h4{font-size:11.5px;margin:0 0 10px;color:#0f172a}
+.checklist{display:grid;gap:9px}
+.check-item{border:1px solid #dce4ee;border-radius:15px;padding:11px;background:#fff}
+.check-item.critical{border-right:4px solid #dc2626}
+.check-item-title{font-size:10.7px;font-weight:850;line-height:1.75;margin-bottom:8px}
+.check-response{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.check-response label{display:flex;align-items:center;justify-content:center;gap:4px;border:1px solid #dbe3ed;border-radius:11px;padding:8px 5px;font-size:9px;background:#f8fafc}
+.check-response input{width:auto}
+.risk-panel{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+.risk-score{min-width:72px;border-radius:15px;padding:11px 8px;text-align:center;background:#f1f5f9}
+.risk-score b{display:block;font-size:22px}.risk-score span{font-size:8.5px;font-weight:850}
+.risk-low{background:#dcfce7;color:#166534}.risk-medium{background:#fef3c7;color:#92400e}.risk-high{background:#ffedd5;color:#c2410c}.risk-critical{background:#fee2e2;color:#b91c1c}
+.operation-badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:8.5px;font-weight:900;background:#e0e7ff;color:#3730a3}
+.module-back{display:inline-flex;align-items:center;gap:5px;border:0;background:none;color:#1d4ed8;font-size:10px;font-weight:850;padding:5px 0 11px}
+.metric-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:520px){.module-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.metric-row{grid-template-columns:repeat(4,1fr)}}
+
+
+.brand-context{margin-top:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);border-radius:16px;padding:10px 11px;display:flex;align-items:center;gap:10px}
+.brand-context img{width:36px;height:36px;object-fit:contain;border-radius:9px;background:#fff;padding:3px;flex:0 0 auto}
+.brand-context .brand-fallback{width:36px;height:36px;border-radius:9px;background:linear-gradient(145deg,#d7a644,#8a6116);color:#fff;display:none;place-items:center;font-weight:900;font-size:9px;flex:0 0 auto}
+.brand-context b{display:block;font-size:10.5px;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-context small{display:block;color:#aeb8ca;font-size:9px;margin-top:2px}
+.context-card{border:1px solid #d7dfeb;background:linear-gradient(150deg,#fff,#f6f8fc);border-radius:18px;padding:14px;margin-bottom:14px}
+.context-card h3{margin:0 0 9px;font-size:12px}
+.context-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.portfolio-panel{display:none}
+.portfolio-panel.visible{display:block}
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.portfolio-org{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fff;text-align:right}
+.portfolio-org b{display:block;font-size:11px;line-height:1.6}
+.portfolio-org small{font-size:9px;color:var(--muted)}
+.portfolio-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:9px}
+.portfolio-metrics span{border-radius:9px;background:#f4f6fa;text-align:center;padding:6px 3px;font-size:8px}
+.portfolio-metrics strong{display:block;font-size:12px;color:#172554}
+.org-type-pill{display:inline-flex;padding:4px 7px;border-radius:999px;background:#fff7ed;color:#9a3412;font-size:8px;font-weight:850;margin-top:6px}
+.module-card.specialized{border-color:#d7a644;background:linear-gradient(150deg,#fff,#fffaf0)}
+.module-card.specialized .module-icon{background:#fff3d6;color:#8a6116}
+.legal-brand{font-size:8.5px;color:#d4dae5;line-height:1.6;margin-top:2px}
+@media(min-width:520px){.portfolio-grid{grid-template-columns:repeat(3,1fr)}}
+
+
+/* v4.1 — themes, two-level corporate branding and pending preview */
+html[data-theme="corporate"]{
+  --bg:#eef2f6;--surface:#fff;--surface-2:#f7f9fb;--ink:#111827;--muted:#667085;
+  --line:#dfe5ec;--nav:#0b1f33;--nav-2:#112a45;--accent:#d9a441;--accent-2:#b98222
+}
+html[data-theme="enterprise-navy"]{
+  --bg:#edf2f8;--surface:#fff;--surface-2:#f6f8fb;--ink:#101828;--muted:#64748b;
+  --line:#d9e2ec;--nav:#071426;--nav-2:#102a43;--accent:#2563eb;--accent-2:#1d4ed8
+}
+html[data-theme="mining-bronze"]{
+  --bg:#f2eee8;--surface:#fffdf9;--surface-2:#f7f3ed;--ink:#29221c;--muted:#75685d;
+  --line:#ded3c6;--nav:#201a16;--nav-2:#34271f;--accent:#b97722;--accent-2:#8f5614
+}
+html[data-theme="factory-steel"]{
+  --bg:#e9eef1;--surface:#fff;--surface-2:#f3f6f7;--ink:#172126;--muted:#607078;
+  --line:#d2dde2;--nav:#18252c;--nav-2:#263a44;--accent:#0f8799;--accent-2:#0b6977
+}
+html[data-theme="academic-blue"]{
+  --bg:#eef3fb;--surface:#fff;--surface-2:#f6f9ff;--ink:#14213d;--muted:#61708f;
+  --line:#d9e3f4;--nav:#162d5a;--nav-2:#21447e;--accent:#315eb8;--accent-2:#214b9a
+}
+html[data-theme="high-contrast"]{
+  --bg:#fff;--surface:#fff;--surface-2:#fff;--ink:#000;--muted:#222;
+  --line:#000;--nav:#000;--nav-2:#111;--accent:#ffbf00;--accent-2:#e19d00;
+  --shadow:none
+}
+@media(prefers-color-scheme:dark){
+  html[data-theme="system"]{
+    --bg:#0c111b;--surface:#151c29;--surface-2:#101722;--ink:#f8fafc;--muted:#a8b3c5;
+    --line:#2c3748;--nav:#050911;--nav-2:#111827;--accent:#60a5fa;--accent-2:#3b82f6
+  }
+}
+@media(prefers-color-scheme:light){
+  html[data-theme="system"]{
+    --bg:#eef2f6;--surface:#fff;--surface-2:#f7f9fb;--ink:#111827;--muted:#667085;
+    --line:#dfe5ec;--nav:#0b1220;--nav-2:#111b2e;--accent:#2563eb;--accent-2:#1d4ed8
+  }
+}
+.brand-stack{display:grid;gap:7px;min-width:0;flex:1}
+.brand-row{display:flex;align-items:center;gap:9px;min-width:0}
+.brand-row img{width:34px;height:34px;object-fit:contain;border-radius:9px;background:#fff;padding:3px;flex:0 0 auto}
+.brand-row .brand-fallback{width:34px;height:34px;border-radius:9px;display:none;place-items:center;font-size:8px;font-weight:900;color:#fff;background:linear-gradient(145deg,#0b1f33,#d9a441);flex:0 0 auto}
+.brand-row b{display:block;font-size:10.2px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-row small{display:block;font-size:8.5px;color:#aeb8ca;margin-top:1px}
+.brand-lock{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.09);color:#d7dde8;font-size:8px;font-weight:850}
+.preview-banner{margin:12px 14px 0;padding:12px 13px;border-radius:16px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.preview-banner b{display:block;font-size:11px}.preview-banner small{font-size:9px;line-height:1.7}
+.preview-banner button{white-space:nowrap;padding:8px 10px;font-size:9px}
+.preview-mode .module-card{position:relative;opacity:.82}
+.preview-mode .module-card:after{content:"🔒";position:absolute;left:10px;top:10px;width:27px;height:27px;border-radius:9px;background:#fff7ed;border:1px solid #fed7aa;display:grid;place-items:center;font-size:12px}
+.lock-chip{display:inline-flex;margin-top:7px;padding:4px 7px;border-radius:999px;background:#fff7ed;color:#9a3412;font-size:8px;font-weight:900;width:max-content}
+.preview-empty{padding:26px 14px;border:1px dashed #d0d5dd;border-radius:16px;text-align:center;color:var(--muted);font-size:11px;line-height:1.9;background:var(--surface)}
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.theme-option{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:10px;text-align:right}
+.theme-option.active{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.theme-option b{display:block;font-size:10.5px}.theme-option small{display:block;color:var(--muted);font-size:8.5px;margin-top:4px}
+.theme-swatch{display:flex;gap:4px;margin-bottom:7px}.theme-swatch i{width:19px;height:9px;border-radius:999px;display:block}
+.dedicated-admin-box{border:1px solid #e8d5a6;border-radius:16px;background:#fffbeb;padding:13px}
+.dedicated-admin-box h4{margin:0 0 6px;font-size:11.5px;color:#854d0e}
+.dedicated-admin-box p{margin:0 0 10px;font-size:9.5px;line-height:1.8;color:#92400e}
+.pin-input{letter-spacing:7px;text-align:center;font-size:18px;font-weight:900;direction:ltr}
+.device-danger{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+button:disabled{cursor:not-allowed;opacity:.55}
+
 </style>
 </head>
 <body>
-<div class="app">
+
+<div id="authGate" class="auth-shell">
+  <div class="auth-panel">
+    <div class="auth-head">
+      <div class="auth-brand">
+        <div class="logo">SM</div>
+        <div>
+          <h1>SafetyManage Mobile — Mining</h1>
+          <p>ورود سازمانی ویژه معدن و کارخانه؛ دسترسی فقط پس از فعال‌سازی حساب.</p>
+        </div>
+      </div>
+    </div>
+    <div class="auth-body">
+      <section id="auth-register">
+        <div class="page-title"><h2>درخواست دسترسی</h2><p>مشخصات واقعی سازمانی را وارد کنید. درخواست برای کاربر مرجع ثبت می‌شود.</p></div>
+        <form id="accessRequestForm" class="form-grid">
+          <div class="two">
+            <div class="field"><label>نام و نام خانوادگی</label><input id="aFullName" required autocomplete="name"></div>
+            <div class="field"><label>شماره پرسنلی</label><input id="aPersonnelNumber" inputmode="numeric"></div>
+          </div>
+          <div class="two">
+            <div class="field"><label>شماره همراه</label><input id="aMobile" required inputmode="tel" dir="ltr"></div>
+            <div class="field"><label>ایمیل سازمانی</label><input id="aEmail" type="email" dir="ltr"></div>
+          </div>
+          <div class="field"><label>معدن یا کارخانه</label><select id="aOrganization" required></select></div>
+          <div class="two">
+            <div class="field"><label>سایت عملیاتی</label><select id="aSite" required></select></div>
+            <div class="field"><label>واحد</label><select id="aUnit" required></select></div>
+          </div>
+          <div class="two">
+            <div class="field"><label>سمت سازمانی</label><input id="aJobTitle" required placeholder="کارشناس ایمنی، سرپرست..."></div>
+            <div class="field"><label>نقش درخواستی</label><select id="aRequestedRole" required></select></div>
+          </div>
+          <div class="field"><label>کد فعال‌سازی اختیاری</label><input id="aActivationCode" dir="ltr" autocomplete="off" placeholder="در صورت دریافت از مدیر"></div>
+          <div class="auth-note">بدون کد، حساب با وضعیت «در انتظار تأیید» ثبت می‌شود. کدهای مجاز حروف بزرگ و کوچک را یکسان در نظر می‌گیرند.</div>
+          <button class="btn btn-primary btn-block" type="submit" id="aSubmit">ثبت درخواست</button>
+        </form>
+      </section>
+
+      <section id="auth-pending" class="hidden">
+        <div class="page-title"><h2>وضعیت درخواست</h2><p>تا زمان تأیید، اطلاعات عملیاتی و سوابق سازمان نمایش داده نمی‌شوند.</p></div>
+        <div class="auth-status-card">
+          <div class="auth-status-line"><b id="pendingTitle">در انتظار بررسی</b><span class="badge warn" id="pendingBadge">Pending</span></div>
+          <div class="auth-request-id" id="pendingRequestId">—</div>
+          <div class="account-card" style="margin-top:10px">
+            <div class="account-row"><span>نام</span><b id="pendingName">—</b></div>
+            <div class="account-row"><span>مجموعه</span><b id="pendingOrg">—</b></div>
+            <div class="account-row"><span>آخرین بررسی</span><b id="pendingChecked">—</b></div>
+          </div>
+        </div>
+        <div class="card form-grid" style="margin-top:12px">
+          <button class="btn btn-outline btn-block" id="openPreviewMode" type="button">مشاهده منوها در حالت پیش‌نمایش محدود</button>
+          <div class="field"><label>کد فعال‌سازی عمومی</label><input id="pendingActivationCode" dir="ltr" autocomplete="off"></div>
+          <button class="btn btn-primary btn-block" id="activateByCode" type="button">فعال‌سازی با کد عمومی</button>
+          <div class="dedicated-admin-box">
+            <h4>ورود اختصاصی مدیر کل</h4>
+            <p>این مسیر فقط برای حساب رزروشده دکتر میثم کوهساری است و پس از نخستین استفاده به همان درخواست و دستگاه متصل می‌شود.</p>
+            <div class="field"><label>کلید شش‌رقمی اختصاصی</label><input id="dedicatedAdminPin" class="pin-input" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••"></div>
+            <button class="btn btn-primary btn-block" id="activateDedicatedAdmin" type="button">فعال‌سازی حساب مدیر کل</button>
+          </div>
+          <button class="btn btn-outline btn-block" id="checkRequestStatus" type="button">بررسی مجدد وضعیت</button>
+          <button class="btn btn-outline btn-block" id="resetAccessRequest" type="button">ثبت درخواست جدید</button>
+        </div>
+      </section>
+
+      <section id="auth-error" class="hidden">
+        <div class="page-title"><h2>ارتباط مرکزی برقرار نشد</h2><p id="authErrorText">سرویس در دسترس نیست.</p></div>
+        <button class="btn btn-primary btn-block" id="retryBootstrap" type="button">تلاش مجدد</button>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="mainApp" hidden>
 <header class="topbar">
   <div class="topline">
     <div class="brand">
-      <div class="logo">MS</div>
-      <div><h1>SafetyManage Mobile — Mining</h1><small>با حمایت سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید</small></div>
+      <div class="logo">SM</div>
+      <div>
+        <h1>SafetyManage Mobile — Mining</h1>
+        <small id="profileSubtitle">حساب سازمانی فعال</small>
+        <div class="legal-brand" id="legalBrandName">سامانه پرتفوی معدن و کارخانه</div>
+      </div>
     </div>
     <button class="icon-btn" id="syncTop" aria-label="همگام‌سازی">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 7h-5V2"/><path d="M4 17h5v5"/><path d="M5.6 9a7 7 0 0 1 11.5-2L20 9"/><path d="M18.4 15a7 7 0 0 1-11.5 2L4 15"/></svg>
     </button>
+  </div>
+  <div class="brand-context">
+    <div class="brand-stack">
+      <div class="brand-row">
+        <img id="holdingLogo" alt="نشان هلدینگ فولاد یزد" src="./icons/brand-foulad-yazd-fallback.svg">
+        <span class="brand-fallback" id="holdingFallback">FY</span>
+        <div style="min-width:0;flex:1"><b id="holdingBrandLabel">هلدینگ صنعتی معدنی فولاد یزد</b><small>برند سطح هلدینگ</small></div>
+        <span class="brand-lock">🔒 قفل</span>
+      </div>
+      <div class="brand-row">
+        <img id="operatingLogo" alt="نشان شرکت عملیاتی" src="./icons/brand-sisoo-fallback.svg">
+        <span class="brand-fallback" id="operatingFallback">SIS</span>
+        <div style="min-width:0;flex:1"><b id="activeOrganizationLabel">مجموعه تعریف نشده</b><small id="activeSiteLabel">سایت عملیاتی</small></div>
+        <span class="brand-lock" id="operatingBrandLock">🔒 قفل</span>
+      </div>
+    </div>
   </div>
   <div class="unitbar">
     <div class="unit-chip">
@@ -134,17 +363,27 @@ main{padding:18px}
     <div class="sync-pill" id="syncLabel">آفلاین آماده</div>
   </div>
 </header>
+<div class="preview-banner hidden" id="previewBanner">
+  <div><b>حساب هنوز فعال نشده است</b><small>همه منوها قابل مشاهده‌اند، اما ثبت، ارسال و سوابق واقعی تا زمان تأیید قفل هستند.</small></div>
+  <button class="btn btn-primary" id="openActivationPanel" type="button">فعال‌سازی</button>
+</div>
 
 <main>
 <section class="screen active" id="screen-home">
   <div class="hero">
-    <h2>ثبت سریع، پیگیری روشن، گزارش یکپارچه</h2>
-    <p>هر واحد اطلاعات خود را ثبت می‌کند؛ همه رکوردها با کد واحد در Google Sheet مرکزی سازمان تجمیع می‌شوند.</p>
+    <h2>عملیات HSE متصل به هویت سازمانی</h2>
+    <p>هر ثبت با هلدینگ، معدن یا کارخانه، سایت، واحد، کاربر و نقش سازمانی مشخص ذخیره می‌شود.</p>
     <div class="hero-actions">
-      <button class="btn btn-primary" data-go="new">ثبت گزارش</button>
+      <button class="btn btn-primary" data-go="operations">شروع عملیات</button>
       <button class="btn btn-light" id="homeSync">ارسال صف</button>
     </div>
   </div>
+
+
+  <section class="portfolio-panel" id="portfolioPanel">
+    <div class="section-head"><h3>پرتفوی سازمانی</h3><button class="btn btn-outline" id="refreshPortfolio" style="padding:7px 10px;font-size:10px">به‌روزرسانی</button></div>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </section>
 
   <div class="section-head"><h3>وضعیت امروز</h3><span id="todayLabel"></span></div>
   <div class="kpis">
@@ -154,25 +393,49 @@ main{padding:18px}
     <div class="kpi"><div class="n" id="kpiCritical">۰</div><div class="l">مورد بحرانی</div></div>
   </div>
 
-  <div class="section-head"><h3>عملیات سریع</h3><span>فرم‌های میدانی</span></div>
-  <div class="quick-grid" id="quickGrid"></div>
+  <div class="section-head"><h3>عملیات اصلی HSE</h3><span>معدن و کارخانه</span></div>
+  <div class="module-grid" id="quickGrid"></div>
 
   
-<div class="section-head"><h3>دامنه تخصصی توسعه</h3><span>معدن روباز</span></div>
+<div class="section-head"><h3>معماری پرتفوی نسخه ۴</h3><span>متصل به دیتاشیت</span></div>
 <div class="card">
-  <div style="font-size:12px;font-weight:900;margin-bottom:8px">نسخه فعلی: گزارش‌دهی و پیگیری میدانی</div>
+  <div style="font-size:12px;font-weight:900;margin-bottom:8px">پروفایل پویا برای معدن، کارخانه و اکتشاف</div>
   <div style="font-size:10.8px;color:var(--muted);line-height:1.9">
-    توسعه بعدی شامل دستورالعمل‌های عملیات معدن روباز، ارزیابی ریسک فعالیت‌ها، کنترل برم و جاده معدنی،
-    آتشباری، حفاری، بارگیری و حمل، دامپ، سنگ‌شکن، تعمیرات، شرایط اضطراری و کنترل‌های حیاتی خواهد بود.
+    ماژول‌ها براساس نوع مجموعه فعال می‌شوند و هر ثبت به دیتاشیت مستقل همان معدن یا مجتمع هدایت می‌شود.
+    حساب‌ها، تأییدها و داشبورد کلان در مرکز کنترل باقی می‌مانند.
   </div>
 </div>
-
 <div class="section-head"><h3>آخرین رکوردها</h3><button class="btn btn-outline" data-go="records" style="padding:7px 10px;font-size:10px">مشاهده همه</button></div>
   <div class="list" id="homeRecords"></div>
 </section>
 
+
+<section class="screen" id="screen-operations">
+  <div class="page-title"><h2>مرکز عملیات HSE</h2><p>فرم تخصصی را انتخاب کنید. همه ثبت‌ها به معدن/کارخانه، سایت، واحد و کاربر فعال متصل می‌شوند.</p></div>
+  <div class="module-grid" id="operationsGrid"></div>
+  <div class="section-head"><h3>قواعد عملیاتی</h3><span>پروفایل پویا</span></div>
+  <div class="card">
+    <div class="account-card">
+      <div class="account-row"><span>بازرسی بحرانی</span><b>امکان توقف کار و CAPA</b></div>
+      <div class="account-row"><span>ریسک ۱۵ تا ۲۵</span><b>کنترل تکمیلی الزامی</b></div>
+      <div class="account-row"><span>مجوز کار</span><b>ثبت اولیه؛ صدور نهایی توسط مسئول مجاز</b></div>
+      <div class="account-row"><span>حادثه</span><b>ثبت فوری و شروع پیگیری</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="screen-module">
+  <button class="module-back" type="button" data-go="operations">بازگشت به عملیات</button>
+  <div class="page-title"><h2 id="moduleTitle">فرم عملیاتی</h2><p id="moduleDescription"></p></div>
+  <form class="form-grid" id="moduleForm">
+    <div id="moduleFormBody"></div>
+    <div class="notice">اطلاعات ابتدا روی دستگاه ذخیره می‌شود؛ در حالت آنلاین به دیتاشیت تخصصی همان ماژول ارسال خواهد شد.</div>
+    <button class="btn btn-primary btn-block" type="submit" id="moduleSubmit">ذخیره و ارسال عملیات</button>
+  </form>
+</section>
+
 <section class="screen" id="screen-new">
-  <div class="page-title"><h2>ثبت رکورد جدید</h2><p>نوع گزارش را انتخاب کنید و اطلاعات ضروری را در یک صفحه تکمیل کنید.</p></div>
+  <div class="page-title"><h2>گزارش سریع عمومی</h2><p>برای مواردی که در فرم‌های تخصصی قرار نمی‌گیرند.</p></div>
   <div class="type-grid" id="typeGrid"></div>
   <form class="card form-grid" id="recordForm">
     <div class="two">
@@ -180,8 +443,8 @@ main{padding:18px}
       <div class="field"><label>شیفت</label><select id="fShift"><option>روز</option><option>شب</option><option>اداری</option></select></div>
     </div>
     <div class="two">
-      <div class="field"><label>نام گزارش‌دهنده</label><input id="fReporter" required placeholder="نام و نام خانوادگی"></div>
-      <div class="field"><label>سمت</label><input id="fRole" placeholder="مسئول ایمنی، سرپرست..."></div>
+      <div class="field"><label>نام گزارش‌دهنده</label><input id="fReporter" required readonly class="readonly-field"></div>
+      <div class="field"><label>سمت</label><input id="fRole" readonly class="readonly-field"></div>
     </div>
     <div class="field"><label>عنوان کوتاه</label><input id="fTitle" required placeholder="عنوان روشن و قابل پیگیری"></div>
     <div class="field"><label>محل / ناحیه</label><input id="fLocation" placeholder="کارگاه، جبهه‌کار، دستگاه یا مسیر"></div>
@@ -220,45 +483,73 @@ main{padding:18px}
   <div class="list" id="actionsList"></div>
 </section>
 
+
 <section class="screen" id="screen-settings">
-  <div class="page-title"><h2>تنظیمات</h2><p>واحد فعال، هویت گزارش‌دهنده و اتصال به Google Sheet مرکزی.</p></div>
+  <div class="page-title"><h2>حساب و تنظیمات</h2><p>هویت سازمانی، وضعیت همگام‌سازی و پشتیبان اطلاعات محلی.</p></div>
+
   <div class="card settings-group">
-    <h3>مشخصات محلی</h3>
-    <div class="form-grid">
-      <div class="field"><label>واحد پیش‌فرض</label><select id="sUnit"></select></div>
-      <div class="field"><label>نام گزارش‌دهنده</label><input id="sReporter"></div>
-      <div class="field"><label>سمت</label><input id="sRole"></div>
-      <div class="field"><label>نام سایت / معدن</label><input id="sSite"></div>
+    <h3>حساب فعال</h3>
+    <div class="account-card">
+      <div class="account-row"><span>کاربر</span><b id="accountName">—</b></div>
+      <div class="account-row"><span>سمت</span><b id="accountJobTitle">—</b></div>
+      <div class="account-row"><span>معدن / کارخانه</span><b id="accountOrganization">—</b></div>
+      <div class="account-row"><span>سایت و واحد</span><b id="accountScope">—</b></div>
+      <div class="account-row"><span>نقش سامانه</span><b><span class="role-pill" id="accountRole">—</span></b></div>
+      <div class="account-row"><span>وضعیت</span><b id="accountStatus">فعال</b></div>
     </div>
   </div>
+
+
+  <div class="context-card hidden" id="contextManager">
+    <h3>تغییر محدوده مدیریتی</h3>
+    <div class="context-grid">
+      <div class="field"><label>معدن / مجتمع</label><select id="contextOrganization"></select></div>
+      <div class="field"><label>سایت عملیاتی</label><select id="contextSite"></select></div>
+    </div>
+    <div class="notice" style="margin-top:9px">این انتخاب فقط برای نقش‌های مدیریتی نمایش داده می‌شود و دامنه فرم‌ها، واحدها، برند و داشبورد را تغییر می‌دهد.</div>
+  </div>
+
   <div class="card settings-group">
-    <h3>اتصال Google Sheet</h3>
-    <div class="connection">
-      <div class="field"><label>نشانی Apps Script Web App</label><input id="sEndpoint" dir="ltr" placeholder="نشانی Web App از config.js خوانده می‌شود"></div>
-      <div class="field"><label>توکن API</label><input id="sToken" dir="ltr" type="password"></div>
-      <div class="status-box"><div><b id="connectionTitle">اتصال تنظیم نشده</b><small id="connectionText">نشانی Web App و توکن را ثبت کنید.</small></div><span class="badge gray" id="connectionBadge">محلی</span></div>
-      <div class="two">
-        <button class="btn btn-outline" id="testConnection" type="button">تست اتصال</button>
-        <button class="btn btn-outline" id="loadUnits" type="button">دریافت واحدها</button>
+    <h3>همگام‌سازی</h3>
+    <div class="status-box"><div><b id="connectionTitle">اتصال مرکزی</b><small id="connectionText">وضعیت نشست هنوز بررسی نشده است.</small></div><span class="badge gray" id="connectionBadge">بررسی نشده</span></div>
+    <div class="two" style="margin-top:12px">
+      <button class="btn btn-outline" id="validateSession" type="button">بررسی حساب</button>
+      <button class="btn btn-outline" id="syncSettingsQueue" type="button">ارسال صف</button>
+    </div>
+  </div>
+
+  <div class="card settings-group">
+    <h3>ظاهر حرفه‌ای</h3>
+    <div class="theme-grid" id="themeGrid"></div>
+    <div class="notice" style="margin-top:10px">لوگوی فولاد یزد در سطح هلدینگ و لوگوی SISOO در سطح جنوب شرق ایرانیان قفل است؛ تم فقط رنگ و کنتراست رابط را تغییر می‌دهد.</div>
+  </div>
+
+  <div class="card settings-group">
+    <h3>داده و کنترل دستگاه</h3>
+    <div class="form-grid">
+      <button class="btn btn-outline btn-block" id="exportData" type="button">خروجی پشتیبان JSON</button>
+      <button class="btn btn-danger btn-block" id="clearData" type="button">پاک‌کردن فقط رکوردهای محلی</button>
+      <button class="btn btn-outline btn-block" id="logoutAccount" type="button">خروج از حساب</button>
+      <div class="device-danger">
+        <button class="btn btn-danger btn-block" id="resetDevice" type="button">بازنشانی کامل این دستگاه</button>
       </div>
     </div>
   </div>
-  <div class="card settings-group">
-    <h3>داده و پشتیبان</h3>
-    <div class="form-grid">
-      <button class="btn btn-primary btn-block" id="saveSettings" type="button">ذخیره تنظیمات</button>
-      <button class="btn btn-outline btn-block" id="exportData" type="button">خروجی پشتیبان JSON</button>
-      <button class="btn btn-danger btn-block" id="clearData" type="button">پاک‌کردن داده‌های محلی</button>
+
+  <details class="admin-details hidden" id="adminTools">
+    <summary>مدیریت سیستم</summary>
+    <div>
+      <div class="notice">تنظیمات فنی فقط برای مالک یا مدیر سیستم نمایش داده می‌شود. دیتاشیت برای کاربران عادی قابل مشاهده نیست.</div>
+      <div class="field" style="margin-top:10px"><label>سرویس مرکزی</label><input id="adminEndpoint" readonly class="readonly-field" dir="ltr"></div>
     </div>
-  </div>
-  <div class="notice">این نسخه برای GitHub Pages ایمن‌سازی شده است: توکن داخل سورس قرار ندارد و فقط در مرورگر همین دستگاه ذخیره می‌شود. فایل را می‌توان عمومی منتشر کرد، اما توکن را عمومی نکنید.</div>
+  </details>
 </section>
 
 <section class="card" style="margin-top:22px;text-align:center">
   <div style="font-size:10px;color:var(--muted);margin-bottom:5px">حامی و ناظر پروژه</div>
   <div style="font-size:15px;font-weight:900;letter-spacing:.2px">سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید</div>
   <div style="font-size:10.5px;color:var(--muted);line-height:1.8;margin-top:6px">
-    حامی، ناظر و صاحب امتیاز پروژه موبایل HSE معدن بنوید
+    مالک، طراح و ناظر سامانه پرتفوی HSE معدن و کارخانه
   </div>
   <a href="https://www.linkedin.com/in/saeed-dahiri-dehnavi-668a0b173" target="_blank" rel="noopener noreferrer"
      class="btn btn-primary" style="display:inline-flex;align-items:center;justify-content:center;margin-top:13px;text-decoration:none">
@@ -270,7 +561,7 @@ main{padding:18px}
 
 <nav class="bottom-nav">
   <button class="nav-btn active" data-screen="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>خانه</span></button>
-  <button class="nav-btn" data-screen="new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg><span>ثبت</span></button>
+  <button class="nav-btn" data-screen="operations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg><span>عملیات</span></button>
   <button class="nav-btn" data-screen="records"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>سوابق</span></button>
   <button class="nav-btn" data-screen="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>اقدامات</span></button>
   <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H3v-4h.2a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V3h4v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg><span>تنظیمات</span></button>
@@ -280,18 +571,46 @@ main{padding:18px}
 
 <script src="./config.js"></script>
 <script>
-const APP_VERSION='1.0.1';
+
+const APP_VERSION='4.1.0';
 const PUBLIC_CONFIG=window.MANAGESAFETY_CONFIG||{};
 const DEFAULT_ENDPOINT=String(PUBLIC_CONFIG.endpoint||'').trim();
 const SPONSOR_NAME=String(PUBLIC_CONFIG.sponsor||'سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید').trim();
-const STORE_KEY='managesafety_mobile_v1';
+const STORE_KEY='safetymanage_mobile_v4_1';
+const PREVIOUS_STORE_KEY='safetymanage_mobile_v4';
+const LEGACY_STORE_KEY='managesafety_mobile_v1';
+
 const defaultUnits=[
-  {UnitCode:'UNIT-001',UnitName:'واحد معدن و استخراج',SiteName:'سایت اصلی',Active:'TRUE'},
-  {UnitCode:'UNIT-002',UnitName:'واحد فرآوری',SiteName:'کارخانه',Active:'TRUE'},
-  {UnitCode:'UNIT-003',UnitName:'واحد تعمیرات و نگهداری',SiteName:'تعمیرگاه',Active:'TRUE'},
-  {UnitCode:'UNIT-004',UnitName:'واحد اکتشاف و حفاری',SiteName:'اکتشاف',Active:'TRUE'},
-  {UnitCode:'UNIT-005',UnitName:'پیمانکاران',SiteName:'کارگاه‌های پیمانکاری',Active:'TRUE'}
+  {UnitCode:'BEN-HSE',UnitName:'واحد HSE و ایمنی',SiteName:'معدن مس بنوید',OrganizationCode:'MINE-BENOYD',SiteCode:'BENOYD-MAIN',Active:'TRUE'},
+  {UnitCode:'BEN-GEO',UnitName:'زمین‌شناسی و اکتشاف',SiteName:'معدن مس بنوید',OrganizationCode:'MINE-BENOYD',SiteCode:'BENOYD-MAIN',Active:'TRUE'},
+  {UnitCode:'BEN-DRILL',UnitName:'حفاری مغزه‌گیری و حفاری معدنی',SiteName:'معدن مس بنوید',OrganizationCode:'MINE-BENOYD',SiteCode:'BENOYD-MAIN',Active:'TRUE'},
+  {UnitCode:'BEN-MINEOPS',UnitName:'عملیات معدن',SiteName:'معدن مس بنوید',OrganizationCode:'MINE-BENOYD',SiteCode:'BENOYD-MAIN',Active:'TRUE'},
+  {UnitCode:'BEN-MAINT',UnitName:'تعمیرات و نگهداری',SiteName:'معدن مس بنوید',OrganizationCode:'MINE-BENOYD',SiteCode:'BENOYD-MAIN',Active:'TRUE'},
+  {UnitCode:'BEN-CONTRACT',UnitName:'پیمانکاران',SiteName:'معدن مس بنوید',OrganizationCode:'MINE-BENOYD',SiteCode:'BENOYD-MAIN',Active:'TRUE'}
 ];
+
+const operationModules=[
+  {key:'inspection',title:'بازرسی ساختاریافته',desc:'چک‌لیست معدن، کارخانه یا ماشین‌آلات',icon:'✓',tag:'Inspection'},
+  {key:'risk',title:'ارزیابی ریسک',desc:'Take 5، JSA/JHA و ماتریس ۵×۵',icon:'R',tag:'Risk'},
+  {key:'permit',title:'مجوز کار',desc:'کار گرم، ارتفاع، برق، LOTO و موارد ویژه',icon:'P',tag:'PTW'},
+  {key:'incident',title:'حادثه / شبه‌حادثه',desc:'ثبت فوری رویداد و شدت بالقوه',icon:'!',tag:'Incident'},
+  {key:'daily',title:'گزارش روزانه HSE',desc:'آمار شیفت، فعالیت‌ها و یافته‌های کلیدی',icon:'D',tag:'Daily'},
+  {key:'quick',title:'گزارش سریع عمومی',desc:'وضعیت ناایمن، جلسه ایمنی و سایر ثبت‌ها',icon:'+',tag:'Quick'}
+];
+
+const professionalThemes=[
+  {id:'corporate',name:'Corporate Locked',desc:'برند قفل‌شده فولاد یزد و SISOO',swatches:['#0b1f33','#d9a441','#ffffff']},
+  {id:'enterprise-navy',name:'Enterprise Navy',desc:'سرمه‌ای سازمانی',swatches:['#071426','#2563eb','#ffffff']},
+  {id:'mining-bronze',name:'Mining Bronze',desc:'زغالی و برنزی معدن',swatches:['#201a16','#b97722','#fffdf9']},
+  {id:'factory-steel',name:'Factory Steel',desc:'فولادی و صنعتی',swatches:['#18252c','#0f8799','#ffffff']},
+  {id:'academic-blue',name:'Academic Blue',desc:'آبی روشن و رسمی',swatches:['#162d5a','#315eb8','#ffffff']},
+  {id:'high-contrast',name:'High Contrast',desc:'خوانایی محیط میدانی',swatches:['#000000','#ffbf00','#ffffff']},
+  {id:'system',name:'System Theme',desc:'هماهنگ با دستگاه',swatches:['#111827','#60a5fa','#f8fafc']}
+];
+
+let currentModule='';
+let currentModuleConfig={templateCode:'',customTitle:'',moduleCode:''};
+
 const types=[
   ['unsafe','وضعیت ناایمن','ثبت خطر یا نقص محیطی'],
   ['inspection','بازرسی','کنترل میدانی و تجهیزات'],
@@ -304,42 +623,487 @@ const types=[
 let state=loadState();
 let currentType='unsafe';
 
+function blankAccount(){
+  return {status:'Unregistered',requestId:'',requestSecret:'',accessToken:'',profile:null,pendingProfile:null,lastCheckedAt:''};
+}
+function migrateLegacy(){
+  try{
+    const v2=JSON.parse(localStorage.getItem(PREVIOUS_STORE_KEY)||'null');
+    const v1=JSON.parse(localStorage.getItem(LEGACY_STORE_KEY)||'null');
+    const legacy=v2||v1;
+    if(!legacy)return null;
+    return {
+      account:{...blankAccount(),...(legacy.account||{})},
+      catalog:{
+        organizations:Array.isArray(legacy.catalog?.organizations)?legacy.catalog.organizations:[],
+        sites:Array.isArray(legacy.catalog?.sites)?legacy.catalog.sites:[],
+        units:Array.isArray(legacy.catalog?.units)&&legacy.catalog.units.length?legacy.catalog.units:(Array.isArray(legacy.units)?legacy.units:defaultUnits),
+        roles:Array.isArray(legacy.catalog?.roles)?legacy.catalog.roles:[],
+        checklistTemplates:[],
+        checklistItems:[],
+        brandProfiles:[],
+        organizationModules:[]
+
+      },
+      records:Array.isArray(legacy.records)?legacy.records:[],
+      actions:Array.isArray(legacy.actions)?legacy.actions:[],
+      operations:Array.isArray(legacy.operations)?legacy.operations:[],
+      context:legacy.context||{organizationCode:'',siteCode:''},
+      preferences:legacy.preferences||{theme:'corporate'},
+      migratedFrom:v2?'v2':'v1',
+      migratedAt:new Date().toISOString()
+    };
+  }catch(_){return null}
+}
 function loadState(){
   try{
-    const s=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
-    return {
-      settings:{
-        unitCode:'UNIT-001',
-        reporter:'',
-        role:'',
-        site:'',
-        endpoint:DEFAULT_ENDPOINT,
-        token:'',
-        ...(s.settings||{}),
-        endpoint:(s.settings&&s.settings.endpoint)||DEFAULT_ENDPOINT
-      },
-      units:Array.isArray(s.units)&&s.units.length?s.units:defaultUnits,
-      records:Array.isArray(s.records)?s.records:[],
-      actions:Array.isArray(s.actions)?s.actions:[]
+    const saved=JSON.parse(localStorage.getItem(STORE_KEY)||'null');
+    if(saved){
+      return {
+        account:{...blankAccount(),...(saved.account||{})},
+        catalog:{
+          organizations:Array.isArray(saved.catalog?.organizations)?saved.catalog.organizations:[],
+          sites:Array.isArray(saved.catalog?.sites)?saved.catalog.sites:[],
+          units:Array.isArray(saved.catalog?.units)&&saved.catalog.units.length?saved.catalog.units:defaultUnits,
+          roles:Array.isArray(saved.catalog?.roles)?saved.catalog.roles:[],
+          checklistTemplates:Array.isArray(saved.catalog?.checklistTemplates)?saved.catalog.checklistTemplates:[],
+          checklistItems:Array.isArray(saved.catalog?.checklistItems)?saved.catalog.checklistItems:[],
+          brandProfiles:Array.isArray(saved.catalog?.brandProfiles)?saved.catalog.brandProfiles:[],
+          organizationModules:Array.isArray(saved.catalog?.organizationModules)?saved.catalog.organizationModules:[]
+        },
+        records:Array.isArray(saved.records)?saved.records:[],
+        actions:Array.isArray(saved.actions)?saved.actions:[],
+        operations:Array.isArray(saved.operations)?saved.operations:[],
+        context:saved.context||{organizationCode:'',siteCode:''},
+        preferences:saved.preferences||{theme:'corporate'}
+      };
+    }
+    return migrateLegacy()||{
+      account:blankAccount(),
+      catalog:{organizations:[],sites:[],units:defaultUnits,roles:[],checklistTemplates:[],checklistItems:[],brandProfiles:[],organizationModules:[]},
+      records:[],actions:[],operations:[],context:{organizationCode:'',siteCode:''},preferences:{theme:'corporate'}
     };
   }catch(_){
     return {
-      settings:{unitCode:'UNIT-001',reporter:'',role:'',site:'',endpoint:DEFAULT_ENDPOINT,token:''},
-      units:defaultUnits,
-      records:[],
-      actions:[]
+      account:blankAccount(),
+      catalog:{organizations:[],sites:[],units:defaultUnits,roles:[],checklistTemplates:[],checklistItems:[],brandProfiles:[],organizationModules:[]},
+      records:[],actions:[],operations:[],context:{organizationCode:'',siteCode:''},preferences:{theme:'corporate'}
     };
   }
 }
-function saveState(){localStorage.setItem(STORE_KEY,JSON.stringify(state));refreshAll()}
+function persist(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}
+function saveState(){persist();if(!document.getElementById('mainApp').hidden)refreshAll()}
 function id(prefix){return prefix+'-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,7).toUpperCase()}
 function iso(){return new Date().toISOString()}
 function faNum(v){return String(v).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])}
 function faDate(d=new Date()){return new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).format(d)}
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
-function unitByCode(code){return state.units.find(u=>u.UnitCode===code)||state.units[0]||{UnitCode:'',UnitName:'واحد تعریف نشده'}}
+function faDateTime(v){try{return new Intl.DateTimeFormat('fa-IR',{dateStyle:'short',timeStyle:'short'}).format(new Date(v))}catch(_){return '—'}}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2800)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function badgeRisk(r){return r==='بحرانی'?'danger':r==='بالا'?'warn':r==='پایین'?'safe':'gray'}
+function getDeviceId(){
+  let v=localStorage.getItem('sm_device_id');
+  if(!v){v='DEV-'+Math.random().toString(36).slice(2,10).toUpperCase();localStorage.setItem('sm_device_id',v)}
+  return v;
+}
+
+function isElevatedRole(role=profile().systemRole){
+  return ['SystemOwner','SystemAdmin','HoldingHSEManager'].includes(role);
+}
+function activeOrganizationCode(){
+  if(isElevatedRole()&&state.context?.organizationCode)return state.context.organizationCode;
+  return profile().organizationCode||'MINE-BENOYD';
+}
+function activeSiteCode(){
+  if(isElevatedRole()&&state.context?.siteCode)return state.context.siteCode;
+  return profile().siteCode||'BENOYD-MAIN';
+}
+function organizationByCode(code){
+  return state.catalog.organizations.find(x=>x.OrganizationCode===code)||{};
+}
+function siteByCode(code){
+  return state.catalog.sites.find(x=>x.SiteCode===code)||{};
+}
+function brandByCode(code){return state.catalog.brandProfiles.find(x=>x.ProfileCode===code)||{}}
+function brandForOrganization(code){
+  const org=organizationByCode(code);
+  return brandByCode(org.OperatingBrandProfileCode||org.BrandProfileCode);
+}
+function holdingBrandForOrganization(code){
+  const org=organizationByCode(code);
+  return brandByCode(org.HoldingBrandProfileCode||org.BrandProfileCode);
+}
+function activeModules(){
+  const org=activeOrganizationCode(),site=activeSiteCode();
+  return state.catalog.organizationModules
+    .filter(x=>x.OrganizationCode===org&&(!x.SiteCode||x.SiteCode===site)&&String(x.Enabled).toUpperCase()!=='FALSE')
+    .sort((a,b)=>Number(a.Priority||99)-Number(b.Priority||99));
+}
+
+function profile(){return state.account.profile||state.account.pendingProfile||{}}
+function isPreviewMode(){return state.account.status!=='Active'||!state.account.accessToken}
+function canUseOperations(){return !isPreviewMode()}
+function applyTheme(themeId){
+  const valid=professionalThemes.some(t=>t.id===themeId)?themeId:'corporate';
+  state.preferences=state.preferences||{theme:'corporate'};
+  state.preferences.theme=valid;
+  document.documentElement.dataset.theme=valid;
+  persist();
+  renderThemeOptions();
+  if(typeof applyProfile==='function'&&!document.getElementById('mainApp').hidden)applyProfile();
+}
+function renderThemeOptions(){
+  const el=document.getElementById('themeGrid');if(!el)return;
+  const selected=state.preferences?.theme||'corporate';
+  el.innerHTML=professionalThemes.map(t=>`<button type="button" class="theme-option ${t.id===selected?'active':''}" data-theme-id="${t.id}">
+    <span class="theme-swatch">${t.swatches.map(c=>`<i style="background:${c}"></i>`).join('')}</span>
+    <b>${t.name}</b><small>${t.desc}</small></button>`).join('');
+  el.querySelectorAll('[data-theme-id]').forEach(b=>b.onclick=()=>applyTheme(b.dataset.themeId));
+}
+function unitByCode(code){return state.catalog.units.find(u=>u.UnitCode===code)||state.catalog.units[0]||{UnitCode:'',UnitName:'واحد تعریف نشده'}}
+function roleLabel(code){
+  return state.catalog.roles.find(r=>r.RoleCode===code)?.RoleNameFA||({
+    Reporter:'گزارش‌دهنده',Inspector:'بازرس HSE',Supervisor:'سرپرست واحد',
+    MineHSEManager:'مدیر HSE معدن',FactoryHSEManager:'مدیر HSE کارخانه',
+    HoldingHSEManager:'مدیر HSE هلدینگ',SystemAdmin:'مدیر سیستم',
+    SystemOwner:'مالک و تأییدکننده مرجع',ReadOnly:'فقط مشاهده'
+  }[code]||code||'—');
+}
+function orgName(code){return state.catalog.organizations.find(x=>x.OrganizationCode===code)?.OrganizationName||profile().organizationName||code||'—'}
+function siteName(code){return state.catalog.sites.find(x=>x.SiteCode===code)?.SiteName||profile().siteName||code||'—'}
+
+async function apiPost(body,{auth=false}={}){
+  if(!DEFAULT_ENDPOINT)throw new Error('نشانی سرویس مرکزی تنظیم نشده است');
+  const payload={...body};
+  if(auth){
+    if(!state.account.accessToken)throw new Error('نشست کاربر فعال نیست');
+    payload.accessToken=state.account.accessToken;
+  }
+  const response=await fetch(DEFAULT_ENDPOINT,{
+    method:'POST',redirect:'follow',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(payload)
+  });
+  const text=await response.text();
+  let data;try{data=JSON.parse(text)}catch(_){throw new Error('پاسخ نامعتبر از سرویس مرکزی')}
+  if(!data.ok)throw new Error(data.error||'خطای سرویس');
+  return data;
+}
+
+function showAuthSection(name){
+  ['register','pending','error'].forEach(x=>document.getElementById('auth-'+x).classList.toggle('hidden',x!==name));
+}
+function showAuth(){
+  document.getElementById('authGate').classList.remove('hidden');
+  document.getElementById('mainApp').hidden=true;
+  if(state.account.requestId)renderPending();
+  else showAuthSection('register');
+}
+function showApp(){
+  document.getElementById('authGate').classList.add('hidden');
+  document.getElementById('mainApp').hidden=false;
+  document.body.classList.remove('preview-mode');
+  document.getElementById('previewBanner').classList.add('hidden');
+  applyTheme(state.preferences?.theme||'corporate');
+  applyProfile();
+  refreshAll();
+}
+function showPreviewApp(){
+  document.getElementById('authGate').classList.add('hidden');
+  document.getElementById('mainApp').hidden=false;
+  document.body.classList.add('preview-mode');
+  document.getElementById('previewBanner').classList.remove('hidden');
+  applyTheme(state.preferences?.theme||'corporate');
+  applyProfile();
+  refreshAll();
+  go('home');
+}
+function renderPending(){
+  showAuthSection('pending');
+  const a=state.account;
+  document.getElementById('pendingRequestId').textContent=a.requestId||'—';
+  document.getElementById('pendingName').textContent=a.pendingName||a.profile?.fullName||'—';
+  document.getElementById('pendingOrg').textContent=a.pendingOrganizationName||a.profile?.organizationName||'—';
+  document.getElementById('pendingChecked').textContent=a.lastCheckedAt?faDateTime(a.lastCheckedAt):'هنوز بررسی نشده';
+  const status=a.status||'Pending';
+  const map={
+    Pending:['در انتظار تأیید کاربر مرجع','warn'],
+    UnderReview:['در حال بررسی','warn'],
+    Approved:['تأیید و فعال شده','safe'],
+    Rejected:['درخواست رد شده','danger'],
+    Suspended:['حساب تعلیق شده','danger'],
+    Expired:['درخواست منقضی شده','gray']
+  };
+  const [title,cls]=map[status]||[status,'gray'];
+  document.getElementById('pendingTitle').textContent=title;
+  document.getElementById('pendingBadge').textContent=status;
+  document.getElementById('pendingBadge').className='badge '+cls;
+}
+
+function populateCatalogSelectors(){
+  const orgSelect=document.getElementById('aOrganization');
+  const orgs=state.catalog.organizations.filter(x=>String(x.Active).toUpperCase()!=='FALSE');
+  orgSelect.innerHTML=orgs.length?orgs.map(x=>{
+    const label=x.OperatingModel==='MINE_AND_PROCESSING'?'مجتمع معدن و کارخانه':x.OperatingModel==='EXPLORATION_ONLY'?'پروژه اکتشافی':x.OrganizationType==='MINE'?'معدن':'مجموعه صنعتی معدنی';
+    return `<option value="${esc(x.OrganizationCode)}">${esc(x.OrganizationName)} — ${label}</option>`;
+  }).join(''):'<option value="MINE-BENOYD">معدن مس بنوید</option>';
+  refreshSites();
+  const roles=state.catalog.roles.filter(r=>['Reporter','Inspector','Supervisor'].includes(r.RoleCode));
+  document.getElementById('aRequestedRole').innerHTML=(roles.length?roles:[
+    {RoleCode:'Reporter',RoleNameFA:'گزارش‌دهنده'},
+    {RoleCode:'Inspector',RoleNameFA:'بازرس HSE'},
+    {RoleCode:'Supervisor',RoleNameFA:'سرپرست واحد'}
+  ]).map(r=>`<option value="${esc(r.RoleCode)}">${esc(r.RoleNameFA)}</option>`).join('');
+}
+function refreshSites(){
+  const org=document.getElementById('aOrganization').value;
+  const rows=state.catalog.sites.filter(x=>x.OrganizationCode===org&&String(x.Active).toUpperCase()!=='FALSE');
+  document.getElementById('aSite').innerHTML=rows.map(x=>`<option value="${esc(x.SiteCode)}">${esc(x.SiteName)}</option>`).join('');
+  refreshAuthUnits();
+}
+function refreshAuthUnits(){
+  const org=document.getElementById('aOrganization').value;
+  const site=document.getElementById('aSite').value;
+  const rows=state.catalog.units.filter(x=>x.OrganizationCode===org&&(!site||x.SiteCode===site)&&String(x.Active).toUpperCase()!=='FALSE');
+  document.getElementById('aUnit').innerHTML=rows.map(x=>`<option value="${esc(x.UnitCode)}">${esc(x.UnitName)}</option>`).join('');
+}
+document.getElementById('aOrganization').addEventListener('change',refreshSites);
+document.getElementById('aSite').addEventListener('change',refreshAuthUnits);
+
+async function loadPublicCatalog(){
+  const data=await apiPost({action:'publicBootstrap'});
+  state.catalog.organizations=data.organizations||[];
+  state.catalog.sites=data.sites||[];
+  state.catalog.units=(data.units||[]).length?data.units:defaultUnits;
+  state.catalog.roles=data.roles||[];
+  state.catalog.checklistTemplates=data.checklistTemplates||[];
+  state.catalog.checklistItems=data.checklistItems||[];
+  state.catalog.brandProfiles=data.brandProfiles||[];
+  state.catalog.organizationModules=data.organizationModules||[];
+  persist();
+  populateCatalogSelectors();
+}
+function applyActivation(data){
+  state.account.status='Active';
+  state.account.accessToken=data.accessToken;
+  state.account.profile=data.profile||{};
+  state.account.lastCheckedAt=iso();
+  if(Array.isArray(data.units)&&data.units.length)state.catalog.units=data.units;
+  persist();
+  showApp();
+  toast('حساب سازمانی فعال شد');
+}
+async function checkRequestStatus(){
+  if(!state.account.requestId||!state.account.requestSecret)throw new Error('اطلاعات درخواست روی این دستگاه وجود ندارد');
+  const data=await apiPost({
+    action:'requestStatus',
+    requestId:state.account.requestId,
+    requestSecret:state.account.requestSecret,
+    deviceId:getDeviceId()
+  });
+  state.account.status=data.status||state.account.status;
+  state.account.lastCheckedAt=iso();
+  if(data.profile)state.account.profile=data.profile;
+  persist();
+  if(data.active&&data.accessToken)applyActivation(data);
+  else renderPending();
+}
+async function activateByCode(code){
+  const value=String(code||'').trim();
+  if(!value)throw new Error('کد فعال‌سازی وارد نشده است');
+  const data=await apiPost({
+    action:'activateWithCode',
+    requestId:state.account.requestId,
+    requestSecret:state.account.requestSecret,
+    activationCode:value,
+    deviceId:getDeviceId()
+  });
+  applyActivation(data);
+}
+
+
+async function activateDedicatedAdmin(pin){
+  const value=String(pin||'').replace(/\D/g,'');
+  if(!/^\d{6}$/.test(value))throw new Error('کلید اختصاصی باید دقیقاً شش رقم باشد');
+  if(!state.account.requestId||!state.account.requestSecret)throw new Error('ابتدا درخواست دسترسی ثبت شود');
+  const data=await apiPost({
+    action:'activateDedicatedAdmin',
+    requestId:state.account.requestId,
+    requestSecret:state.account.requestSecret,
+    dedicatedPin:value,
+    deviceId:getDeviceId()
+  });
+  applyActivation(data);
+}
+
+document.getElementById('accessRequestForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('aSubmit');
+  btn.disabled=true;btn.textContent='در حال ثبت...';
+  try{
+    const orgCode=document.getElementById('aOrganization').value;
+    const org=state.catalog.organizations.find(x=>x.OrganizationCode===orgCode);
+    const request={
+      fullName:document.getElementById('aFullName').value.trim(),
+      personnelNumber:document.getElementById('aPersonnelNumber').value.trim(),
+      mobile:document.getElementById('aMobile').value.trim(),
+      email:document.getElementById('aEmail').value.trim(),
+      holdingCode:org?.HoldingCode||'FYH',
+      organizationCode:orgCode,
+      siteCode:document.getElementById('aSite').value,
+      unitCode:document.getElementById('aUnit').value,
+      jobTitle:document.getElementById('aJobTitle').value.trim(),
+      requestedRole:document.getElementById('aRequestedRole').value,
+      deviceId:getDeviceId()
+    };
+    const data=await apiPost({action:'requestAccess',request});
+    state.account={
+      ...blankAccount(),
+      status:data.status||'Pending',
+      requestId:data.requestId,
+      requestSecret:data.requestSecret,
+      pendingName:request.fullName,
+      pendingOrganizationName:org?.OrganizationName||orgCode,
+      pendingProfile:{
+        userCode:'PENDING',
+        fullName:request.fullName,
+        personnelNumber:request.personnelNumber,
+        mobile:request.mobile,
+        jobTitle:request.jobTitle,
+        holdingCode:request.holdingCode,
+        organizationCode:request.organizationCode,
+        organizationName:org?.OrganizationName||request.organizationCode,
+        siteCode:request.siteCode,
+        siteName:siteByCode(request.siteCode).SiteName||request.siteCode,
+        unitCode:request.unitCode,
+        unitName:unitByCode(request.unitCode).UnitName||request.unitCode,
+        systemRole:request.requestedRole,
+        accountStatus:'Pending'
+      },
+      lastCheckedAt:iso()
+    };
+    persist();
+    const code=document.getElementById('aActivationCode').value.trim();
+    if(code)await activateByCode(code);
+    else{renderPending();toast('درخواست با موفقیت ثبت شد')}
+  }catch(err){
+    toast(String(err.message||err));
+  }finally{
+    btn.disabled=false;btn.textContent='ثبت درخواست';
+  }
+});
+document.getElementById('checkRequestStatus').onclick=async()=>{try{await checkRequestStatus();toast('وضعیت به‌روزرسانی شد')}catch(err){toast(String(err.message||err))}};
+document.getElementById('activateByCode').onclick=async()=>{try{await activateByCode(document.getElementById('pendingActivationCode').value)}catch(err){toast(String(err.message||err))}};
+document.getElementById('activateDedicatedAdmin').onclick=async()=>{try{await activateDedicatedAdmin(document.getElementById('dedicatedAdminPin').value)}catch(err){toast(String(err.message||err))}};
+document.getElementById('openPreviewMode').onclick=()=>showPreviewApp();
+document.getElementById('openActivationPanel').onclick=()=>{showAuth();renderPending()};
+document.getElementById('resetAccessRequest').onclick=()=>{
+  if(!confirm('درخواست ذخیره‌شده روی این دستگاه پاک و فرم جدید باز شود؟'))return;
+  state.account=blankAccount();persist();showAuthSection('register');populateCatalogSelectors();
+};
+document.getElementById('retryBootstrap').onclick=()=>boot();
+
+function applyProfile(){
+  const p=profile(),orgCode=activeOrganizationCode(),siteCode=activeSiteCode();
+  const org=organizationByCode(orgCode),site=siteByCode(siteCode),operatingBrand=brandForOrganization(orgCode),holdingBrand=holdingBrandForOrganization(orgCode);
+  document.getElementById('profileSubtitle').textContent=`${p.fullName||'کاربر'} · ${p.jobTitle||roleLabel(p.systemRole)}`;
+  document.getElementById('legalBrandName').textContent=org.LegalEntityName||brand.LegalName||'سامانه پرتفوی معدن و کارخانه';
+  document.getElementById('activeOrganizationLabel').textContent=org.OrganizationName||p.organizationName||orgCode;
+  document.getElementById('activeSiteLabel').textContent=site.SiteName||p.siteName||siteCode;
+  document.getElementById('accountName').textContent=p.fullName||'—';
+  document.getElementById('accountJobTitle').textContent=p.jobTitle||'—';
+  document.getElementById('accountOrganization').textContent=org.OrganizationName||p.organizationName||orgCode;
+  const visibleUnit=allowedUnits().find(u=>u.UnitCode===p.unitCode)||allowedUnits()[0]||unitByCode(p.unitCode);
+  document.getElementById('accountScope').textContent=`${site.SiteName||p.siteName||siteCode} / ${visibleUnit.UnitName||p.unitName||'—'}`;
+  document.getElementById('accountRole').textContent=roleLabel(p.systemRole);
+  document.getElementById('accountStatus').textContent=isPreviewMode()?'در انتظار تأیید':(p.accountStatus||'Active');
+  document.getElementById('fReporter').value=p.fullName||'';
+  document.getElementById('fRole').value=p.jobTitle||roleLabel(p.systemRole);
+  const admin=['SystemOwner','SystemAdmin'].includes(p.systemRole);
+  document.getElementById('adminTools').classList.toggle('hidden',!admin);
+  document.getElementById('adminEndpoint').value=admin?DEFAULT_ENDPOINT:'';
+  document.getElementById('contextManager').classList.toggle('hidden',!isElevatedRole());
+  document.getElementById('portfolioPanel').classList.toggle('visible',isElevatedRole());
+  applyBrand(holdingBrand,operatingBrand,org);
+  renderContextManager();
+}
+
+
+function setBrandImage(imgId,fallbackId,url,fallbackText){
+  const img=document.getElementById(imgId),fallback=document.getElementById(fallbackId);
+  img.onerror=()=>{img.style.display='none';fallback.style.display='grid'};
+  img.onload=()=>{img.style.display='block';fallback.style.display='none'};
+  img.src=url||'./icons/brand-generic-fallback.svg';
+  fallback.textContent=(fallbackText||'HSE').slice(0,5);
+}
+function applyBrand(holdingBrand,operatingBrand,org){
+  const theme=state.preferences?.theme||'corporate';
+  if(theme==='corporate'){
+    document.documentElement.style.setProperty('--nav',holdingBrand.PrimaryColor||operatingBrand.PrimaryColor||'#0b1f33');
+    document.documentElement.style.setProperty('--accent',holdingBrand.AccentColor||operatingBrand.AccentColor||'#d9a441');
+    document.documentElement.style.setProperty('--accent-2',operatingBrand.AccentColor||'#f47b20');
+  }else{
+    document.documentElement.style.removeProperty('--nav');
+    document.documentElement.style.removeProperty('--accent');
+    document.documentElement.style.removeProperty('--accent-2');
+  }
+  setBrandImage('holdingLogo','holdingFallback',holdingBrand.LogoURL||'./icons/brand-foulad-yazd-fallback.svg',holdingBrand.ShortName||'FY');
+  setBrandImage('operatingLogo','operatingFallback',operatingBrand.LogoURL||'./icons/brand-sisoo-fallback.svg',operatingBrand.ShortName||org.OrganizationShortName||'HSE');
+  document.getElementById('holdingBrandLabel').textContent=holdingBrand.DisplayName||org.HoldingName||'هلدینگ صنعتی معدنی فولاد یزد';
+  document.getElementById('operatingBrandLock').textContent=String(operatingBrand.BrandLocked).toUpperCase()==='TRUE'?'🔒 قفل':'برند مستقل';
+}
+function renderContextManager(){
+  if(!isElevatedRole())return;
+  const orgs=state.catalog.organizations.filter(x=>String(x.Active).toUpperCase()!=='FALSE');
+  const orgSelect=document.getElementById('contextOrganization');
+  orgSelect.innerHTML=orgs.map(x=>`<option value="${esc(x.OrganizationCode)}">${esc(x.OrganizationName)}</option>`).join('');
+  orgSelect.value=activeOrganizationCode();
+  renderContextSites();
+}
+function renderContextSites(){
+  if(!isElevatedRole())return;
+  const org=document.getElementById('contextOrganization').value||activeOrganizationCode();
+  const sites=state.catalog.sites.filter(x=>x.OrganizationCode===org&&String(x.Active).toUpperCase()!=='FALSE');
+  const siteSelect=document.getElementById('contextSite');
+  siteSelect.innerHTML=sites.map(x=>`<option value="${esc(x.SiteCode)}">${esc(x.SiteName)}</option>`).join('');
+  if(sites.some(x=>x.SiteCode===state.context.siteCode))siteSelect.value=state.context.siteCode;
+  else siteSelect.value=sites[0]?.SiteCode||'';
+}
+document.getElementById('contextOrganization').addEventListener('change',()=>{
+  state.context.organizationCode=document.getElementById('contextOrganization').value;
+  state.context.siteCode='';
+  renderContextSites();
+  state.context.siteCode=document.getElementById('contextSite').value;
+  persist();applyProfile();refreshAll();go('home');loadPortfolioSummary();
+});
+document.getElementById('contextSite').addEventListener('change',()=>{
+  state.context.siteCode=document.getElementById('contextSite').value;
+  persist();applyProfile();refreshAll();go('home');
+});
+async function loadPortfolioSummary(){
+  if(!isElevatedRole()||!state.account.accessToken)return;
+  try{
+    const data=await apiPost({action:'portfolioSummary',deviceId:getDeviceId()},{auth:true});
+    const rows=data.organizations||[];
+    document.getElementById('portfolioGrid').innerHTML=rows.map(x=>`<button class="portfolio-org" data-org-switch="${esc(x.organizationCode)}" data-site-switch="${esc(x.defaultSiteCode||'')}">
+      <b>${esc(x.organizationName)}</b><small>${esc(x.operatingModel||'')}</small>
+      <span class="org-type-pill">${esc(x.lifecycleStage||'')}</span>
+      <div class="portfolio-metrics">
+        <span><strong>${faNum(x.inspections||0)}</strong>بازرسی</span>
+        <span><strong>${faNum(x.openActions||0)}</strong>اقدام باز</span>
+        <span><strong>${faNum(x.incidents||0)}</strong>رویداد</span>
+      </div>
+    </button>`).join('')||'<div class="empty card">داده پرتفوی هنوز ایجاد نشده است.</div>';
+    document.querySelectorAll('[data-org-switch]').forEach(b=>b.onclick=()=>{
+      state.context.organizationCode=b.dataset.orgSwitch;
+      state.context.siteCode=b.dataset.siteSwitch;
+      persist();applyProfile();refreshAll();go('home');
+    });
+  }catch(err){
+    document.getElementById('portfolioGrid').innerHTML=`<div class="empty card">${esc(err.message||err)}</div>`;
+  }
+}
+document.getElementById('refreshPortfolio').onclick=loadPortfolioSummary;
 
 function go(screen){
   document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id==='screen-'+screen));
@@ -347,86 +1111,163 @@ function go(screen){
   window.scrollTo({top:0,behavior:'smooth'});
   if(screen==='records')renderRecords();
   if(screen==='actions')renderActions();
+  if(screen==='operations')renderOperationsGrid();
 }
 document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.screen)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 
+const moduleCatalog={
+  INSPECTION:{key:'inspection',title:'بازرسی ساختاریافته',desc:'چک‌لیست عمومی یا تخصصی',icon:'✓',tag:'Inspection'},
+  RISK:{key:'risk',title:'ارزیابی ریسک',desc:'Take 5، JSA/JHA و ماتریس ۵×۵',icon:'R',tag:'Risk'},
+  PERMIT:{key:'permit',title:'مجوز کار',desc:'درخواست و کنترل کار پرریسک',icon:'P',tag:'PTW'},
+  INCIDENT:{key:'incident',title:'حادثه / شبه‌حادثه',desc:'ثبت فوری و پیگیری',icon:'!',tag:'Incident'},
+  DAILY:{key:'daily',title:'گزارش روزانه HSE',desc:'شاخص‌ها و جمع‌بندی شیفت',icon:'D',tag:'Daily'},
+  ACTIONS:{key:'actions',title:'اقدامات اصلاحی',desc:'پیگیری CAPA',icon:'A',tag:'CAPA'},
+  HAUL_ROAD:{key:'inspection',title:'جاده معدنی و ترافیک',desc:'عرض، شیب، دید، تقاطع و سرعت',icon:'J',tag:'Mining',special:true},
+  BERM:{key:'inspection',title:'برم و لبه خطرناک',desc:'ارتفاع، عرض، پیوستگی و شکستگی',icon:'B',tag:'Mining',special:true},
+  PIT_BENCH:{key:'inspection',title:'پیت، بنچ و دیواره',desc:'پایداری، ریزش و محدوده ممنوعه',icon:'P',tag:'Mining',special:true},
+  BLASTING:{key:'inspection',title:'حفاری و آتشباری',desc:'محدوده خطر، خرج‌گذاری و Misfire',icon:'X',tag:'Mining',special:true},
+  DUMP:{key:'inspection',title:'دامپ و محل تخلیه',desc:'لبه، عقب‌روی و راهنمای تخلیه',icon:'D',tag:'Mining',special:true},
+  EQUIPMENT_PRESHIFT:{key:'inspection',title:'بازرسی پیش از شیفت',desc:'ماشین‌آلات معدنی و خودرویی',icon:'E',tag:'Equipment',special:true},
+  LOTO:{key:'inspection',title:'LOTO و کنترل انرژی',desc:'ایزولاسیون برق، هیدرولیک و مکانیک',icon:'L',tag:'Factory',special:true},
+  CRUSHER_CONVEYOR:{key:'inspection',title:'سنگ‌شکن و نوار نقاله',desc:'حفاظ، توقف اضطراری و نقاط گیرکردن',icon:'C',tag:'Factory',special:true},
+  ROTATING:{key:'inspection',title:'ماشین‌آلات دوار',desc:'کوپلینگ، حفاظ و ارتعاش',icon:'R',tag:'Factory',special:true},
+  ELECTRICAL:{key:'inspection',title:'برق و ابزار دقیق',desc:'تابلو، ارت، قفل و مجوز',icon:'E',tag:'Factory',special:true},
+  CHEMICAL:{key:'inspection',title:'مواد شیمیایی و SDS',desc:'برچسب، انبارش و مواجهه',icon:'S',tag:'Factory',special:true},
+  EMERGENCY:{key:'inspection',title:'آمادگی اضطراری',desc:'اطفا، خروج و تجهیزات واکنش',icon:'!',tag:'Factory',special:true},
+  CORE_DRILLING:{key:'inspection',title:'حفاری مغزه‌گیری',desc:'دستگاه، لوله‌ها، Rod handling و کمپرسور',icon:'C',tag:'Exploration',special:true},
+  FIELD_WORK:{key:'inspection',title:'عملیات صحرایی',desc:'نمونه‌برداری، مسیر و کار انفرادی',icon:'F',tag:'Exploration',special:true},
+  CAMP:{key:'inspection',title:'کمپ و اسکان',desc:'آتش، برق، آب، غذا و بهداشت',icon:'C',tag:'Exploration',special:true},
+  FIELD_VEHICLE:{key:'inspection',title:'تردد صحرایی',desc:'خودرو، ارتباط، مسیر و شرایط جوی',icon:'V',tag:'Exploration',special:true}
+};
+function visibleModules(){
+  const configured=activeModules();
+  if(!configured.length)return operationModules.map(x=>({...x,moduleCode:x.key.toUpperCase()}));
+  return configured.map(x=>{
+    const base=moduleCatalog[x.ModuleCode]||{key:'inspection',title:x.ModuleNameFA,desc:'فرم تخصصی سازمانی',icon:'•',tag:x.ScopeType||'HSE',special:true};
+    return {...base,moduleCode:x.ModuleCode,title:x.ModuleNameFA||base.title,templateCode:x.TemplateSet||'',scopeType:x.ScopeType||''};
+  });
+}
+function moduleCards(){
+  return visibleModules().map(m=>`<button class="module-card ${m.special?'specialized':''}" type="button" data-module="${m.key}" data-module-code="${esc(m.moduleCode||'')}" data-template="${esc(m.templateCode||'')}" data-title="${esc(m.title)}">
+    <div><span class="module-icon">${m.icon}</span><h4>${m.title}</h4><p>${m.desc}</p></div>
+    <span class="module-tag">${m.tag}</span>${isPreviewMode()?'<span class="lock-chip">نیازمند فعال‌سازی</span>':''}
+  </button>`).join('');
+}
+function bindModuleCards(){
+  document.querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>{
+    if(isPreviewMode()){toast('این ماژول پس از فعال‌سازی حساب قابل استفاده است');return}
+    if(b.dataset.module==='actions'){go('actions');return}
+    openModule(b.dataset.module,b.dataset.template,b.dataset.title,b.dataset.moduleCode);
+  });
+}
+function renderOperationsGrid(){
+  document.getElementById('operationsGrid').innerHTML=moduleCards();
+  bindModuleCards();
+}
 function renderTypes(){
-  const html=types.map(t=>`<button class="type-btn ${t[0]===currentType?'active':''}" type="button" data-type="${t[0]}"><b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
-  document.getElementById('typeGrid').innerHTML=html;
-  document.getElementById('quickGrid').innerHTML=types.map(t=>`<button class="quick" data-quick="${t[0]}">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M3 12h18"/></svg>
-    <b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
+  const list=types.map(t=>`<button class="type-btn ${t[0]===currentType?'active':''}" type="button" data-type="${t[0]}"><b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
+  document.getElementById('typeGrid').innerHTML=list;
+  document.getElementById('quickGrid').innerHTML=moduleCards();
   document.querySelectorAll('[data-type]').forEach(b=>b.onclick=()=>{currentType=b.dataset.type;renderTypes()});
-  document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{currentType=b.dataset.quick;renderTypes();go('new')});
+  bindModuleCards();
 }
-
+function allowedUnits(){
+  const p=profile();
+  const all=state.catalog.units.filter(u=>String(u.Active).toUpperCase()!=='FALSE');
+  const org=activeOrganizationCode(),site=activeSiteCode();
+  if(isElevatedRole(p.systemRole))return all.filter(u=>u.OrganizationCode===org&&(!site||u.SiteCode===site));
+  if(['MineHSEManager','FactoryHSEManager'].includes(p.systemRole))return all.filter(u=>u.OrganizationCode===p.organizationCode&&(!site||u.SiteCode===site));
+  return all.filter(u=>u.UnitCode===p.unitCode);
+}
 function fillUnitSelects(){
-  const opts=state.units.filter(u=>String(u.Active).toUpperCase()!=='FALSE').map(u=>`<option value="${esc(u.UnitCode)}">${esc(u.UnitName)} — ${esc(u.UnitCode)}</option>`).join('');
-  ['fUnit','sUnit'].forEach(id=>document.getElementById(id).innerHTML=opts);
-  document.getElementById('fUnit').value=state.settings.unitCode;
-  document.getElementById('sUnit').value=state.settings.unitCode;
-  document.getElementById('activeUnitLabel').textContent=unitByCode(state.settings.unitCode).UnitName;
+  const units=allowedUnits();
+  const opts=units.map(u=>`<option value="${esc(u.UnitCode)}">${esc(u.UnitName)} — ${esc(u.UnitCode)}</option>`).join('');
+  document.getElementById('fUnit').innerHTML=opts;
+  const selected=units.some(u=>u.UnitCode===profile().unitCode)?profile().unitCode:units[0]?.UnitCode||'';
+  document.getElementById('fUnit').value=selected;
+  document.querySelectorAll('.module-unit-select').forEach(el=>{el.innerHTML=opts;el.value=selected});
+  document.getElementById('activeUnitLabel').textContent=unitByCode(selected).UnitName;
 }
-
 function refreshAll(){
+  applyProfile();
   fillUnitSelects();
   renderTypes();
+  renderOperationsGrid();
+  renderThemeOptions();
   const today=new Date().toISOString().slice(0,10);
   const todayRows=state.records.filter(r=>(r.submittedAtISO||'').slice(0,10)===today);
+  const todayOps=state.operations.filter(r=>(r.submittedAtISO||'').slice(0,10)===today);
   document.getElementById('todayLabel').textContent=faDate();
-  document.getElementById('kpiToday').textContent=faNum(todayRows.length);
-  document.getElementById('kpiQueue').textContent=faNum(state.records.filter(r=>r.syncState==='queued'||r.syncState==='failed').length);
-  document.getElementById('kpiActions').textContent=faNum(state.actions.filter(a=>a.status!=='بسته').length);
-  document.getElementById('kpiCritical').textContent=faNum(state.records.filter(r=>r.riskLevel==='بحرانی').length);
+  document.getElementById('kpiToday').textContent=faNum(isPreviewMode()?0:todayRows.length+todayOps.length);
+  document.getElementById('kpiQueue').textContent=faNum(isPreviewMode()?0:
+    state.records.filter(r=>r.syncState==='queued'||r.syncState==='failed').length+
+    state.operations.filter(r=>r.syncState==='queued'||r.syncState==='failed').length
+  );
+  document.getElementById('kpiActions').textContent=faNum(isPreviewMode()?0:state.actions.filter(a=>a.status!=='بسته').length);
+  document.getElementById('kpiCritical').textContent=faNum(isPreviewMode()?0:
+    state.records.filter(r=>r.riskLevel==='بحرانی').length+
+    state.operations.filter(r=>['بحرانی','Critical'].includes(r.riskLevel)||r.workDecision==='توقف کار'||r.overallStatus==='CriticalStop').length
+  );
   renderHomeRecords();renderRecords();renderActions();
-  document.getElementById('syncLabel').textContent=state.settings.endpoint?'اتصال آماده':'آفلاین آماده';
-  document.getElementById('sReporter').value=state.settings.reporter||'';
-  document.getElementById('sRole').value=state.settings.role||'';
-  document.getElementById('sSite').value=state.settings.site||'';
-  document.getElementById('sEndpoint').value=state.settings.endpoint||'';
-  document.getElementById('sToken').value=state.settings.token||'';
-  document.getElementById('fReporter').value=state.settings.reporter||'';
-  document.getElementById('fRole').value=state.settings.role||'';
+  document.getElementById('syncLabel').textContent=navigator.onLine?'حساب فعال':'آفلاین';
 }
-
 function recordCard(r){
   const t=types.find(x=>x[0]===r.recordSubtype)?.[1]||r.recordType;
   const sync=r.syncState==='synced'?'<span class="badge safe">ارسال‌شده</span>':r.syncState==='failed'?'<span class="badge danger">خطای ارسال</span>':'<span class="badge warn">در صف</span>';
   return `<article class="record"><div class="record-top"><div><h4>${esc(r.title)}</h4><p>${esc(t)} · ${esc(r.location||'بدون محل')}</p></div><span class="badge ${badgeRisk(r.riskLevel)}">${esc(r.riskLevel)}</span></div>
     <div class="meta">${sync}<span class="badge gray">${esc(r.unitName)}</span><span class="badge gray">${esc(r.submittedAtJalali)}</span></div></article>`;
 }
+function operationCard(o){
+  const m=operationModules.find(x=>x.key===o.module);
+  const sync=o.syncState==='synced'?'<span class="badge safe">ارسال‌شده</span>':o.syncState==='failed'?'<span class="badge danger">خطای ارسال</span>':'<span class="badge warn">در صف</span>';
+  const risk=o.riskLevel||o.residualLevel||o.potentialSeverity||o.overallStatus||o.authorizationStatus||'ثبت‌شده';
+  return `<article class="record"><div class="record-top"><div><h4>${esc(o.title||m?.title||'عملیات HSE')}</h4><p>${esc(m?.title||o.module)} · ${esc(o.location||o.unitName||'')}</p></div><span class="operation-badge">${esc(risk)}</span></div>
+    <div class="meta">${sync}<span class="badge gray">${esc(o.unitName||'')}</span><span class="badge gray">${esc(o.submittedAtJalali||faDate(new Date(o.submittedAtISO||Date.now())))}</span></div></article>`;
+}
+function recentCombined(){
+  return [
+    ...state.records.map(x=>({...x,_kind:'record'})),
+    ...state.operations.map(x=>({...x,_kind:'operation'}))
+  ].sort((a,b)=>(b.submittedAtISO||'').localeCompare(a.submittedAtISO||''));
+}
 function renderHomeRecords(){
-  const rows=[...state.records].sort((a,b)=>(b.submittedAtISO||'').localeCompare(a.submittedAtISO||'')).slice(0,3);
-  document.getElementById('homeRecords').innerHTML=rows.length?rows.map(recordCard).join(''):'<div class="empty card">هنوز رکوردی ثبت نشده است.</div>';
+  if(isPreviewMode()){document.getElementById('homeRecords').innerHTML='<div class="preview-empty">سوابق واقعی سازمان تا زمان فعال‌سازی نمایش داده نمی‌شوند.</div>';return}
+  const rows=recentCombined().slice(0,3);
+  document.getElementById('homeRecords').innerHTML=rows.length?rows.map(x=>x._kind==='operation'?operationCard(x):recordCard(x)).join(''):'<div class="empty card">هنوز رکوردی ثبت نشده است.</div>';
 }
 function renderRecords(){
+  if(isPreviewMode()){document.getElementById('recordsList').innerHTML='<div class="preview-empty">دسترسی به سوابق پس از تأیید حساب فعال می‌شود.</div>';return}
   const q=(document.getElementById('recordSearch')?.value||'').trim().toLowerCase();
   const sf=document.getElementById('syncFilter')?.value||'';
-  const rows=[...state.records].filter(r=>{
-    const text=[r.title,r.description,r.location,r.unitName].join(' ').toLowerCase();
+  const rows=recentCombined().filter(r=>{
+    const text=[r.title,r.description,r.location,r.unitName,r.module,r.activity,r.jobTitle].join(' ').toLowerCase();
     return (!q||text.includes(q))&&(!sf||r.syncState===sf);
-  }).sort((a,b)=>(b.submittedAtISO||'').localeCompare(a.submittedAtISO||''));
-  document.getElementById('recordsList').innerHTML=rows.length?rows.map(recordCard).join(''):'<div class="empty card">رکوردی با این فیلتر پیدا نشد.</div>';
+  });
+  document.getElementById('recordsList').innerHTML=rows.length?rows.map(x=>x._kind==='operation'?operationCard(x):recordCard(x)).join(''):'<div class="empty card">رکوردی با این فیلتر پیدا نشد.</div>';
 }
 function renderActions(){
+  if(isPreviewMode()){document.getElementById('actionsList').innerHTML='<div class="preview-empty">اقدامات اصلاحی سازمان در حالت پیش‌نمایش مخفی است.</div>';return}
   const rows=[...state.actions].sort((a,b)=>(a.dueDate||'9999').localeCompare(b.dueDate||'9999'));
   document.getElementById('actionsList').innerHTML=rows.length?rows.map(a=>`<article class="record"><div class="record-top"><div><h4>${esc(a.title)}</h4><p>مسئول: ${esc(a.owner||'تعیین نشده')} · مهلت: ${esc(a.dueDate||'—')}</p></div><span class="badge ${a.priority==='بحرانی'?'danger':a.priority==='بالا'?'warn':'gray'}">${esc(a.status)}</span></div><div class="meta"><span class="badge gray">${esc(a.unitName)}</span><span class="badge gray">${esc(a.actionId)}</span></div></article>`).join(''):'<div class="empty card">اقدام اصلاحی بازی وجود ندارد.</div>';
 }
-
 document.getElementById('fNeedsAction').addEventListener('change',e=>document.getElementById('actionFields').style.display=e.target.checked?'grid':'none');
 document.getElementById('recordSearch').addEventListener('input',renderRecords);
 document.getElementById('syncFilter').addEventListener('change',renderRecords);
 
 document.getElementById('recordForm').addEventListener('submit',async e=>{
   e.preventDefault();
+  const p=profile();
+  if(state.account.status!=='Active'){toast('حساب فعال نیست');return}
   const unit=unitByCode(document.getElementById('fUnit').value);
   const now=new Date();
   const record={
     recordId:id('REC'),submittedAtISO:now.toISOString(),submittedAtJalali:faDate(now),
-    unitCode:unit.UnitCode,unitName:unit.UnitName,site:state.settings.site||unit.SiteName||'',
-    shift:document.getElementById('fShift').value,reporterName:document.getElementById('fReporter').value.trim(),
-    reporterRole:document.getElementById('fRole').value.trim(),recordType:types.find(x=>x[0]===currentType)?.[1]||currentType,
+    holdingCode:p.holdingCode||'FYH',organizationCode:p.organizationCode||unit.OrganizationCode||'',
+    siteCode:unit.SiteCode||p.siteCode||'',userCode:p.userCode||'',systemRole:p.systemRole||'',
+    unitCode:unit.UnitCode,unitName:unit.UnitName,site:unit.SiteName||p.siteName||'',
+    shift:document.getElementById('fShift').value,reporterName:p.fullName||'',
+    reporterRole:p.jobTitle||roleLabel(p.systemRole),recordType:types.find(x=>x[0]===currentType)?.[1]||currentType,
     recordSubtype:currentType,title:document.getElementById('fTitle').value.trim(),description:document.getElementById('fDescription').value.trim(),
     location:document.getElementById('fLocation').value.trim(),riskLevel:document.getElementById('fRisk').value,
     severity:document.getElementById('fRisk').value,status:document.getElementById('fStatus').value,
@@ -439,123 +1280,531 @@ document.getElementById('recordForm').addEventListener('submit',async e=>{
   if(record.actionRequired){
     state.actions.unshift({
       actionId:id('ACT'),sourceRecordId:record.recordId,unitCode:record.unitCode,unitName:record.unitName,
+      holdingCode:record.holdingCode,organizationCode:record.organizationCode,siteCode:record.siteCode,
+      userCode:record.userCode,systemRole:record.systemRole,
       title:'اقدام اصلاحی: '+record.title,description:record.immediateAction||record.description,
-      owner:record.actionOwner,dueDate:record.dueDate,priority:record.riskLevel,status:'باز',verificationMethod:'بازدید و ثبت شواهد'
+      owner:record.actionOwner,dueDate:record.dueDate,priority:record.riskLevel,status:'باز',
+      verificationMethod:'بازدید و ثبت شواهد',syncState:'queued'
     });
   }
   saveState();
   const sent=await syncOne(record);
   document.getElementById('recordForm').reset();
-  document.getElementById('fUnit').value=state.settings.unitCode;
-  document.getElementById('fReporter').value=state.settings.reporter||'';
-  document.getElementById('fRole').value=state.settings.role||'';
+  applyProfile();fillUnitSelects();
   document.getElementById('actionFields').style.display='none';
-  toast(sent?'رکورد ذخیره و به Google Sheet ارسال شد':'رکورد ذخیره شد و در صف ارسال قرار گرفت');
+  toast(sent?'رکورد ذخیره و ارسال شد':'رکورد ذخیره شد و در صف ارسال قرار گرفت');
   go('home');
 });
 
-function getDeviceId(){
-  let v=localStorage.getItem('ms_device_id');
-  if(!v){v='DEV-'+Math.random().toString(36).slice(2,10).toUpperCase();localStorage.setItem('ms_device_id',v)}
-  return v;
-}
-
-async function apiPost(body){
-  if(!state.settings.endpoint)throw new Error('اتصال تنظیم نشده');
-  const response=await fetch(state.settings.endpoint,{
-    method:'POST',redirect:'follow',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({...body,token:state.settings.token})
-  });
-  const text=await response.text();
-  let data;try{data=JSON.parse(text)}catch(_){throw new Error('پاسخ نامعتبر از سرویس')}
-  if(!data.ok)throw new Error(data.error||'خطای سرویس');
-  return data;
-}
 async function syncOne(record){
-  if(!state.settings.endpoint)return false;
   try{
-    await apiPost({action:'submitRecord',record});
-    record.syncState='synced';record.syncedAt=iso();saveState();
+    await apiPost({action:'submitRecord',record},{auth:true});
+    record.syncState='synced';record.syncedAt=iso();persist();
     const related=state.actions.filter(a=>a.sourceRecordId===record.recordId&&a.syncState!=='synced');
     for(const action of related){
-      await apiPost({action:'submitAction',correctiveAction:action});
+      await apiPost({action:'submitAction',correctiveAction:action},{auth:true});
       action.syncState='synced';
     }
-    saveState();return true;
-  }catch(err){record.syncState='failed';record.syncError=String(err.message||err);saveState();return false}
+    persist();refreshAll();return true;
+  }catch(err){record.syncState='failed';record.syncError=String(err.message||err);persist();refreshAll();return false}
 }
 async function syncQueue(){
-  const pending=state.records.filter(r=>r.syncState!=='synced');
-  if(!pending.length){toast('صف ارسال خالی است');return}
-  if(!state.settings.endpoint){toast('ابتدا اتصال Google Sheet را تنظیم کنید');go('settings');return}
+  if(isPreviewMode()){toast('ارسال اطلاعات پس از فعال‌سازی حساب امکان‌پذیر است');return}
+  const pendingRecords=state.records.filter(r=>r.syncState!=='synced');
+  const pendingOps=state.operations.filter(r=>r.syncState!=='synced');
+  if(!pendingRecords.length&&!pendingOps.length){toast('صف ارسال خالی است');return}
   document.getElementById('syncLabel').textContent='در حال ارسال...';
   let ok=0;
-  for(const r of pending){if(await syncOne(r))ok++}
-  document.getElementById('syncLabel').textContent='اتصال آماده';
-  toast(`${faNum(ok)} رکورد ارسال شد`);
+  for(const r of pendingRecords){if(await syncOne(r))ok++}
+  for(const o of pendingOps){if(await syncOperation(o))ok++}
+  document.getElementById('syncLabel').textContent=navigator.onLine?'حساب فعال':'آفلاین';
+  toast(`${faNum(ok)} مورد ارسال شد`);
 }
 document.getElementById('syncTop').onclick=syncQueue;
 document.getElementById('homeSync').onclick=syncQueue;
+document.getElementById('syncSettingsQueue').onclick=syncQueue;
 
-document.getElementById('saveSettings').onclick=()=>{
-  state.settings.unitCode=document.getElementById('sUnit').value;
-  state.settings.reporter=document.getElementById('sReporter').value.trim();
-  state.settings.role=document.getElementById('sRole').value.trim();
-  state.settings.site=document.getElementById('sSite').value.trim();
-  state.settings.endpoint=document.getElementById('sEndpoint').value.trim();
-  state.settings.token=document.getElementById('sToken').value.trim();
-  saveState();toast('تنظیمات ذخیره شد');
-};
-document.getElementById('testConnection').onclick=async()=>{
-  const endpoint=document.getElementById('sEndpoint').value.trim();
-  const token=document.getElementById('sToken').value.trim();
-  if(!endpoint){toast('نشانی Web App وارد نشده');return}
+async function validateSession(){
+  if(isPreviewMode()){toast('حساب هنوز فعال نشده است');return false}
   try{
-    const url=new URL(endpoint);url.searchParams.set('action','health');if(token)url.searchParams.set('token',token);
-    const res=await fetch(url,{redirect:'follow'});const data=await res.json();
-    if(!data.ok)throw new Error(data.error||'خطا');
-    document.getElementById('connectionTitle').textContent='اتصال برقرار است';
-    document.getElementById('connectionText').textContent='Google Sheets Gateway v'+(data.version||'');
+    const data=await apiPost({action:'sessionProfile',deviceId:getDeviceId()},{auth:true});
+    state.account.profile=data.profile;
+    state.account.status='Active';
+    if(Array.isArray(data.units)&&data.units.length)state.catalog.units=data.units;
+    if(Array.isArray(data.organizations)&&data.organizations.length)state.catalog.organizations=data.organizations;
+    if(Array.isArray(data.sites)&&data.sites.length)state.catalog.sites=data.sites;
+    if(Array.isArray(data.organizationModules))state.catalog.organizationModules=data.organizationModules;
+    if(Array.isArray(data.brandProfiles))state.catalog.brandProfiles=data.brandProfiles;
+    persist();applyProfile();refreshAll();
+    if(isElevatedRole())loadPortfolioSummary();
+    document.getElementById('connectionTitle').textContent='حساب و اتصال معتبر است';
+    document.getElementById('connectionText').textContent='آخرین بررسی: '+faDateTime(iso());
     document.getElementById('connectionBadge').textContent='متصل';
     document.getElementById('connectionBadge').className='badge safe';
-    toast('تست اتصال موفق بود');
+    return true;
   }catch(err){
-    document.getElementById('connectionTitle').textContent='اتصال ناموفق';
+    document.getElementById('connectionTitle').textContent='نشست معتبر نیست';
     document.getElementById('connectionText').textContent=String(err.message||err);
     document.getElementById('connectionBadge').textContent='خطا';
     document.getElementById('connectionBadge').className='badge danger';
-    toast('تست اتصال ناموفق بود');
+    return false;
   }
-};
-document.getElementById('loadUnits').onclick=async()=>{
-  const endpoint=document.getElementById('sEndpoint').value.trim();
-  const token=document.getElementById('sToken').value.trim();
-  if(!endpoint){toast('نشانی Web App وارد نشده');return}
-  try{
-    const url=new URL(endpoint);url.searchParams.set('action','bootstrap');if(token)url.searchParams.set('token',token);
-    const res=await fetch(url,{redirect:'follow'});const data=await res.json();
-    if(!data.ok)throw new Error(data.error||'خطا');
-    const units=(data.units||[]).filter(u=>u.UnitCode&&u.UnitName);
-    if(!units.length)throw new Error('واحد فعالی در شیت پیدا نشد');
-    state.units=units;saveState();toast(`${faNum(units.length)} واحد دریافت شد`);
-  }catch(err){toast('دریافت واحدها ناموفق بود: '+String(err.message||err))}
-};
+}
+document.getElementById('validateSession').onclick=async()=>{const ok=await validateSession();toast(ok?'حساب تأیید شد':'اعتبار حساب تأیید نشد')};
+
 document.getElementById('exportData').onclick=()=>{
-  const blob=new Blob([JSON.stringify({...state,exportedAt:iso(),appVersion:APP_VERSION},null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ManageSafety-Mobile-Backup-'+Date.now()+'.json';a.click();URL.revokeObjectURL(a.href)
+  const safe={
+    account:{status:state.account.status,profile:state.account.profile,lastCheckedAt:state.account.lastCheckedAt},
+    records:state.records,operations:state.operations,actions:state.actions,exportedAt:iso(),appVersion:APP_VERSION
+  };
+  const blob=new Blob([JSON.stringify(safe,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SafetyManage-Backup-'+Date.now()+'.json';a.click();URL.revokeObjectURL(a.href)
 };
 document.getElementById('clearData').onclick=()=>{
-  if(!confirm('تمام رکوردها و تنظیمات محلی پاک شوند؟'))return;
-  localStorage.removeItem(STORE_KEY);location.reload()
+  if(!confirm(`فقط ${state.records.length} گزارش، ${state.operations.length} عملیات و ${state.actions.length} اقدام محلی پاک شود؟ حساب و تم حفظ می‌شوند.`))return;
+  state.records=[];state.operations=[];state.actions=[];persist();refreshAll();toast('داده‌های محلی پاک شد')
+};
+document.getElementById('resetDevice').onclick=()=>{
+  if(!confirm('بازنشانی کامل، حساب، نشست، تم و همه داده‌های محلی این دستگاه را حذف می‌کند. ادامه می‌دهید؟'))return;
+  const phrase=prompt('برای تأیید نهایی عبارت RESET را وارد کنید');
+  if(String(phrase||'').trim().toUpperCase()!=='RESET'){toast('بازنشانی لغو شد');return}
+  localStorage.removeItem(STORE_KEY);
+  localStorage.removeItem('sm_device_id');
+  location.reload()
+};
+document.getElementById('logoutAccount').onclick=()=>{
+  if(!confirm('از حساب سازمانی این دستگاه خارج می‌شوید؟ رکوردهای محلی حذف نمی‌شوند.'))return;
+  state.account=blankAccount();persist();location.reload()
 };
 
-refreshAll();
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+
+function operationBase(moduleKey){
+  const p=profile();
+  const unitCode=document.querySelector('#moduleForm .module-unit-select')?.value||p.unitCode;
+  const unit=unitByCode(unitCode);
+  return {
+    operationId:id(moduleKey==='inspection'?'INS':moduleKey==='risk'?'RA':moduleKey==='permit'?'PTW':moduleKey==='incident'?'INC':'DR'),
+    module:moduleKey,
+    moduleCode:currentModuleConfig.moduleCode||moduleKey.toUpperCase(),
+    templateSet:currentModuleConfig.templateCode||'',
+    submittedAtISO:iso(),
+    submittedAtJalali:faDate(),
+    holdingCode:p.holdingCode||'FYH',
+    organizationCode:unit.OrganizationCode||activeOrganizationCode()||p.organizationCode||'',
+    siteCode:unit.SiteCode||activeSiteCode()||p.siteCode||'',
+    unitCode:unit.UnitCode,
+    unitName:unit.UnitName,
+    userCode:p.userCode||'',
+    systemRole:p.systemRole||'',
+    reporterName:p.fullName||'',
+    deviceId:getDeviceId(),
+    appVersion:APP_VERSION,
+    syncState:'queued'
+  };
+}
+function field(id){return document.getElementById(id)}
+function value(id){return String(field(id)?.value||'').trim()}
+function checked(id){return Boolean(field(id)?.checked)}
+function numberValue(id){return Number(field(id)?.value||0)}
+function riskLevel(score){
+  const n=Number(score||0);
+  return n>=20?'بحرانی':n>=15?'بالا':n>=6?'متوسط':'پایین';
+}
+function commonScopeFields(){
+  const units=allowedUnits();
+  const options=units.map(u=>`<option value="${esc(u.UnitCode)}">${esc(u.UnitName)} — ${esc(u.UnitCode)}</option>`).join('');
+  return `<div class="form-section"><h4>دامنه سازمانی</h4><div class="two">
+    <div class="field"><label>واحد</label><select class="module-unit-select" id="mUnit" required>${options}</select></div>
+    <div class="field"><label>شیفت</label><select id="mShift"><option>روز</option><option>شب</option><option>اداری</option></select></div>
+  </div><div class="field"><label>محل / ناحیه</label><input id="mLocation" required placeholder="پیت، خط تولید، تعمیرگاه، جبهه‌کار..."></div></div>`;
+}
+function openModule(key,templateCode='',customTitle='',moduleCode=''){
+  if(key==='quick'){go('new');return}
+  currentModule=key;
+  const m=operationModules.find(x=>x.key===key);
+  currentModuleConfig={templateCode,customTitle,moduleCode};
+  field('moduleTitle').textContent=customTitle||m?.title||'فرم عملیاتی';
+  field('moduleDescription').textContent=templateCode?'چک‌لیست تخصصی متناسب با مجموعه و سایت انتخاب‌شده':(m?.desc||'');
+  renderModuleForm(key,templateCode,customTitle);
+  go('module');
+}
+function renderModuleForm(key,forcedTemplate='',customTitle=''){
+  let body=commonScopeFields();
+  if(key==='inspection'){
+    const templates=state.catalog.checklistTemplates.filter(t=>String(t.IsActive).toUpperCase()!=='FALSE');
+    let opts=templates.length?templates.map(t=>`<option value="${esc(t.TemplateCode)}">${esc(t.TemplateName)}</option>`).join(''):
+      '<option value="MINE-DAILY-001">بازرسی روزانه معدن روباز</option><option value="FACTORY-DAILY-001">بازرسی روزانه کارخانه</option><option value="EQUIPMENT-PRESHIFT-001">بازرسی پیش از شیفت ماشین‌آلات</option>';
+    if(forcedTemplate&&!templates.some(t=>t.TemplateCode===forcedTemplate))opts=`<option value="${esc(forcedTemplate)}">${esc(customTitle||forcedTemplate)}</option>`+opts;
+    body+=`<div class="form-section"><h4>قالب بازرسی</h4>
+      <div class="field"><label>نوع بازرسی</label><select id="iTemplate">${opts}</select></div>
+      <div class="field"><label>خلاصه یا هدف بازرسی</label><input id="iSummary" placeholder="بازرسی ابتدای شیفت، بازدید مشترک..."></div>
+    </div><div class="form-section"><h4>موارد کنترل</h4><div class="checklist" id="inspectionChecklist"></div></div>`;
+  }else if(key==='risk'){
+    body+=`<div class="form-section"><h4>شناسایی خطر</h4>
+      <div class="two"><div class="field"><label>روش</label><select id="rMethod"><option>Take5</option><option>JSA/JHA</option><option>Matrix5x5</option><option>FMEA</option></select></div>
+      <div class="field"><label>فعالیت</label><input id="rActivity" required></div></div>
+      <div class="field"><label>خطر</label><textarea id="rHazard" required></textarea></div>
+      <div class="field"><label>پیامد محتمل</label><textarea id="rConsequence" required></textarea></div>
+      <div class="field"><label>افراد در معرض</label><input id="rExposed"></div>
+      <div class="field"><label>کنترل‌های موجود</label><textarea id="rExisting"></textarea></div>
+    </div>
+    <div class="form-section"><h4>ریسک اولیه</h4><div class="risk-panel">
+      <div class="field"><label>احتمال ۱ تا ۵</label><select id="rIL">${[1,2,3,4,5].map(x=>`<option>${x}</option>`).join('')}</select></div>
+      <div class="field"><label>شدت ۱ تا ۵</label><select id="rIS">${[1,2,3,4,5].map(x=>`<option>${x}</option>`).join('')}</select></div>
+      <div class="risk-score" id="rInitialBox"><b id="rInitialScore">۱</b><span id="rInitialLevel">پایین</span></div>
+    </div></div>
+    <div class="form-section"><h4>کنترل تکمیلی و ریسک باقیمانده</h4>
+      <div class="field"><label>کنترل‌های تکمیلی</label><textarea id="rAdditional" required></textarea></div>
+      <div class="risk-panel">
+        <div class="field"><label>احتمال باقیمانده</label><select id="rRL">${[1,2,3,4,5].map(x=>`<option>${x}</option>`).join('')}</select></div>
+        <div class="field"><label>شدت باقیمانده</label><select id="rRS">${[1,2,3,4,5].map(x=>`<option>${x}</option>`).join('')}</select></div>
+        <div class="risk-score" id="rResidualBox"><b id="rResidualScore">۱</b><span id="rResidualLevel">پایین</span></div>
+      </div>
+      <div class="two"><div class="field"><label>تصمیم کار</label><select id="rDecision"><option>ادامه کار</option><option>ادامه با کنترل تکمیلی</option><option>توقف کار</option></select></div>
+      <div class="field"><label>مسئول اقدام</label><input id="rOwner"></div></div>
+      <div class="field"><label>مهلت اقدام</label><input type="date" id="rDue"></div>
+    </div>`;
+  }else if(key==='permit'){
+    body+=`<div class="form-section"><h4>مشخصات کار</h4>
+      <div class="field"><label>نوع مجوز</label><select id="pType"><option>کار گرم</option><option>کار سرد</option><option>کار در ارتفاع</option><option>فضای بسته</option><option>برق</option><option>حفاری و خاک‌برداری</option><option>باربرداری</option><option>تعمیرات و LOTO</option><option>ورود به محدوده آتشباری</option></select></div>
+      <div class="field"><label>عنوان کار</label><input id="pJobTitle" required></div>
+      <div class="field"><label>شرح کار</label><textarea id="pJobDescription" required></textarea></div>
+      <div class="two"><div class="field"><label>سرپرست مسئول</label><input id="pSupervisor" required></div><div class="field"><label>درخواست‌کننده</label><input id="pRequester" value="${esc(profile().fullName||'')}" readonly class="readonly-field"></div></div>
+      <div class="two"><div class="field"><label>شروع</label><input type="datetime-local" id="pStart" required></div><div class="field"><label>پایان</label><input type="datetime-local" id="pEnd" required></div></div>
+    </div><div class="form-section"><h4>خطرها و کنترل‌ها</h4>
+      <div class="field"><label>خطرهای اصلی</label><textarea id="pHazards" required></textarea></div>
+      <div class="field"><label>کنترل‌های لازم</label><textarea id="pControls" required></textarea></div>
+      <div class="field"><label>PPE</label><input id="pPPE" placeholder="کلاه، عینک، هارنس..."></div>
+      <div class="field"><label>کنترل اضطراری</label><textarea id="pEmergency"></textarea></div>
+      <div class="switch-line"><span>ایزولاسیون انرژی لازم است</span><input class="toggle" type="checkbox" id="pIsolation"></div>
+      <div class="switch-line"><span>LOTO تأیید شده است</span><input class="toggle" type="checkbox" id="pLOTO"></div>
+      <div class="switch-line"><span>گازسنجی لازم است</span><input class="toggle" type="checkbox" id="pGasRequired"></div>
+      <div class="field"><label>نتیجه گازسنجی</label><input id="pGasResult"></div>
+    </div>`;
+  }else if(key==='incident'){
+    body+=`<div class="form-section"><h4>اطلاعات رویداد</h4>
+      <div class="two"><div class="field"><label>نوع رویداد</label><select id="nType"><option>حادثه</option><option>شبه‌حادثه</option><option>آسیب انسانی</option><option>خسارت تجهیز</option><option>رویداد زیست‌محیطی</option><option>آتش‌سوزی</option><option>نشت مواد</option><option>برخورد/واژگونی</option><option>سقوط/ریزش</option></select></div>
+      <div class="field"><label>زمان رویداد</label><input type="datetime-local" id="nDateTime" required></div></div>
+      <div class="field"><label>شرح رویداد</label><textarea id="nDescription" required></textarea></div>
+      <div class="two"><div class="field"><label>شدت واقعی</label><select id="nActual"><option>پایین</option><option>متوسط</option><option>بالا</option><option>بحرانی</option></select></div>
+      <div class="field"><label>شدت بالقوه</label><select id="nPotential"><option>پایین</option><option>متوسط</option><option>بالا</option><option>بحرانی</option></select></div></div>
+      <div class="switch-line"><span>مصدومیت رخ داده</span><input class="toggle" type="checkbox" id="nInjury"></div>
+      <div class="field"><label>نام مصدوم / توضیح</label><input id="nInjuredPerson"></div>
+      <div class="switch-line"><span>منطقه ایمن‌سازی شده</span><input class="toggle" type="checkbox" id="nSecured"></div>
+      <div class="field"><label>اقدام‌های فوری</label><textarea id="nImmediate" required></textarea></div>
+      <div class="field"><label>علت مستقیم اولیه</label><textarea id="nDirectCause"></textarea></div>
+      <div class="switch-line"><span>اقدام اصلاحی لازم است</span><input class="toggle" type="checkbox" id="nActionRequired" checked></div>
+    </div>`;
+  }else if(key==='daily'){
+    body+=`<div class="form-section"><h4>آمار شیفت</h4>
+      <div class="two"><div class="field"><label>تاریخ گزارش</label><input type="date" id="dDate" required></div><div class="field"><label>سرپرست</label><input id="dSupervisor" value="${esc(profile().fullName||'')}"></div></div>
+      <div class="metric-row">
+        <div class="field"><label>نفرات</label><input type="number" min="0" id="dHeadcount" value="0"></div>
+        <div class="field"><label>نفر-ساعت</label><input type="number" min="0" step="0.5" id="dWorkHours" value="0"></div>
+        <div class="field"><label>بازرسی</label><input type="number" min="0" id="dInspections" value="0"></div>
+        <div class="field"><label>Toolbox</label><input type="number" min="0" id="dToolbox" value="0"></div>
+        <div class="field"><label>مجوز فعال</label><input type="number" min="0" id="dPermits" value="0"></div>
+        <div class="field"><label>حادثه</label><input type="number" min="0" id="dIncidents" value="0"></div>
+        <div class="field"><label>شبه‌حادثه</label><input type="number" min="0" id="dNearMiss" value="0"></div>
+        <div class="field"><label>نقص تجهیز</label><input type="number" min="0" id="dDefects" value="0"></div>
+      </div>
+    </div><div class="form-section"><h4>جمع‌بندی مدیریتی</h4>
+      <div class="field"><label>فعالیت‌های کلیدی</label><textarea id="dActivities" required></textarea></div>
+      <div class="field"><label>یافته‌های کلیدی</label><textarea id="dFindings"></textarea></div>
+      <div class="field"><label>خلاصه HSE</label><textarea id="dSummary" required></textarea></div>
+    </div>`;
+  }
+  field('moduleFormBody').innerHTML=body;
+  const selected=allowedUnits().some(u=>u.UnitCode===profile().unitCode)?profile().unitCode:allowedUnits()[0]?.UnitCode;
+  if(field('mUnit'))field('mUnit').value=selected||'';
+  if(key==='inspection'){
+    if(forcedTemplate){field('iTemplate').value=forcedTemplate;field('iTemplate').disabled=true}
+    field('iTemplate').addEventListener('change',renderInspectionItems);
+    renderInspectionItems();
+  }
+  if(key==='risk'){
+    ['rIL','rIS','rRL','rRS'].forEach(x=>field(x).addEventListener('change',updateRiskScores));
+    updateRiskScores();
+  }
+  if(key==='daily')field('dDate').value=new Date().toISOString().slice(0,10);
+}
+function defaultInspectionItems(templateCode){
+  const libraries={
+    'MINE-DAILY-001':[
+      ['M01','جاده و ترافیک','عرض، شیب، دید و سطح جاده برای تردد ایمن مناسب است',false],
+      ['M02','جاده و ترافیک','برم یا خاکریز ایمنی در لبه‌های خطرناک پیوسته و کافی است',true],
+      ['M03','پیت و دامپ','پایداری بنچ و دیواره علائم ناپایداری آشکار ندارد',true],
+      ['M04','پیت و دامپ','محل تخلیه و عقب‌روی دامپ دارای کنترل لبه است',true],
+      ['M05','عملیات','محدوده حفاری یا آتشباری ایمن‌سازی شده است',true],
+      ['M06','عمومی','گردوغبار، روشنایی و دید کنترل شده است',false]
+    ],
+    'FACTORY-DAILY-001':[
+      ['F01','ماشین‌آلات','حفاظ قسمت‌های متحرک و نقاط گیرکردن کامل است',true],
+      ['F02','ماشین‌آلات','توقف اضطراری در دسترس و سالم است',true],
+      ['F03','انرژی','روش LOTO برای تعمیرات رعایت شده است',true],
+      ['F04','اضطراری','تجهیزات اطفا در محل و آماده است',true],
+      ['F05','محیط','مسیرهای خروج و تردد باز هستند',false],
+      ['F06','خانه‌داری','ضایعات و نشت‌ها کنترل شده‌اند',false]
+    ],
+    'EQUIPMENT-PRESHIFT':[
+      ['E01','ترمز و فرمان','ترمز سرویس، پارک، فرمان و Retarder سالم هستند',true],
+      ['E02','چرخ و لاستیک','لاستیک، رینگ، مهره‌ها و فشار باد فاقد نقص بحرانی هستند',true],
+      ['E03','هشدار','چراغ، بوق، آژیر دنده عقب، دوربین و رادیو سالم هستند',true],
+      ['E04','حفاظت راننده','کمربند، صندلی، کابین و شیشه‌ها سالم هستند',true],
+      ['E05','سیالات','نشتی سوخت، روغن، هیدرولیک یا آب وجود ندارد',true],
+      ['E06','اطفا','کپسول یا سیستم اطفای خودکار آماده است',true]
+    ],
+    'MINE-HAUL-ROAD':[
+      ['HR01','هندسه','عرض مسیر متناسب با تعداد خطوط و ابعاد بزرگ‌ترین ماشین است',true],
+      ['HR02','شیب','شیب طولی و عرضی در محدوده طراحی و قابل کنترل است',true],
+      ['HR03','دید','فاصله دید در پیچ‌ها، تقاطع‌ها و شیب‌ها کافی است',true],
+      ['HR04','سطح راه','چاله، موج، سنگ‌ریزش، گل و لغزندگی خطرناک وجود ندارد',false],
+      ['HR05','ترافیک','علائم، حق تقدم، سرعت و جداسازی خودرو سبک و سنگین مشخص است',true],
+      ['HR06','کنترل محیط','گردوغبار، روشنایی و زهکشی کنترل شده است',false]
+    ],
+    'MINE-BERM':[
+      ['BM01','ابعاد','ارتفاع برم حداقل تا میانه چرخ بزرگ‌ترین وسیله عبوری است',true],
+      ['BM02','پیوستگی','برم در تمام طول لبه خطرناک پیوسته است',true],
+      ['BM03','پایداری','برم نشست، شکستگی، فرسایش یا مصالح سست ندارد',true],
+      ['BM04','فاصله لبه','فاصله برم از ترک‌ها و لبه ناپایدار کافی است',true],
+      ['BM05','بازشوها','هر بازشو یا نقطه فاقد برم مسدود و علامت‌گذاری شده است',true],
+      ['BM06','بازرسی','وضعیت برم پس از بارندگی، آتشباری یا تغییر مسیر بازبینی شده است',false]
+    ],
+    'MINE-PIT-BENCH':[
+      ['PB01','دیواره','ترک، لق‌شدگی، آب‌زدگی یا نشانه ریزش جدید مشاهده نمی‌شود',true],
+      ['PB02','بنچ','عرض بنچ و Catch bench برای مهار ریزش مناسب است',true],
+      ['PB03','فاصله ایمن','تجهیزات و نفرات از پای دیواره و لبه فاصله ایمن دارند',true],
+      ['PB04','کنترل ورود','محدوده‌های ناپایدار مسدود و علامت‌گذاری شده‌اند',true],
+      ['PB05','آب و هوا','اثر بارندگی، یخبندان یا لرزش بر پایداری بررسی شده است',false],
+      ['PB06','پایش','بازدید ژئوتکنیک و ثبت تغییرات انجام شده است',false]
+    ],
+    'MINE-BLASTING':[
+      ['BL01','طرح','طرح آتشباری، مسئول مجاز و زمان اجرا مشخص است',true],
+      ['BL02','مواد منفجره','تحویل، حمل و نگهداری مواد منفجره کنترل شده است',true],
+      ['BL03','محدوده خطر','شعاع خطر، نگهبانان و تخلیه نفرات/تجهیزات تأیید شده است',true],
+      ['BL04','هشدار','ارتباط رادیویی، آژیر و فرمان نهایی شلیک برقرار است',true],
+      ['BL05','کنترل فنی','خرج‌گذاری، گل‌گذاری و کنترل Flyrock مطابق طرح است',true],
+      ['BL06','پس از انفجار','دود، گاز، سنگ معلق و Misfire پیش از آزادسازی بررسی شده است',true]
+    ],
+    'MINE-DUMP':[
+      ['DP01','لبه تخلیه','برم یا Stop block مناسب در لبه تخلیه وجود دارد',true],
+      ['DP02','زمین','سطح تخلیه پایدار، متراکم و فاقد ترک یا نشست است',true],
+      ['DP03','راهنما','راهنمای تخلیه در محل امن و قابل مشاهده قرار دارد',true],
+      ['DP04','عقب‌روی','مسیر عقب‌روی روشن و بدون مانع است',true],
+      ['DP05','فاصله','فاصله ماشین‌ها و ممنوعیت عبور نفرات رعایت شده است',true],
+      ['DP06','شرایط محیطی','روشنایی، گردوغبار و دید مناسب است',false]
+    ],
+    'FACTORY-LOTO':[
+      ['LT01','شناسایی انرژی','تمام منابع برق، مکانیک، هیدرولیک، پنوماتیک و گرانشی شناسایی شده‌اند',true],
+      ['LT02','قطع و قفل','هر منبع انرژی قطع، قفل و برچسب‌گذاری شده است',true],
+      ['LT03','تخلیه انرژی','انرژی ذخیره‌شده تخلیه یا مهار شده است',true],
+      ['LT04','راستی‌آزمایی','آزمون عدم انرژی و Try-out انجام شده است',true],
+      ['LT05','مالکیت قفل','هر فرد قفل شخصی و کنترل کلید خود را دارد',true],
+      ['LT06','بازگشت سرویس','رفع قفل و راه‌اندازی طبق روش مجاز انجام می‌شود',true]
+    ],
+    'FACTORY-CRUSHER-CONVEYOR':[
+      ['CC01','حفاظ','گارد نقاط گیرکردن، پولی، کوپلینگ و تسمه کامل است',true],
+      ['CC02','توقف اضطراری','Pull cord و E-stop قابل دسترس و آزمون‌شده است',true],
+      ['CC03','راه‌اندازی','آژیر و تأخیر راه‌اندازی قبل از حرکت عمل می‌کند',true],
+      ['CC04','پاکسازی','رفع گیر و پاکسازی فقط با LOTO انجام می‌شود',true],
+      ['CC05','دسترسی','راهرو، نردبان و سکو سالم و بدون لغزش است',false],
+      ['CC06','گردوغبار','کنترل گردوغبار و Housekeeping مناسب است',false]
+    ],
+    'FACTORY-ROTATING':[
+      ['RT01','حفاظ','تمام شفت‌ها، کوپلینگ‌ها و اجزای دوار حفاظ دارند',true],
+      ['RT02','ارتعاش/صدا','ارتعاش، صدا و دمای غیرعادی گزارش نشده است',true],
+      ['RT03','روانکاری','روانکاری بدون تماس با بخش در حال حرکت انجام می‌شود',true],
+      ['RT04','لباس و مو','کنترل لباس گشاد، مو و زیورآلات رعایت شده است',true],
+      ['RT05','تعمیرات','تعمیر و تنظیم فقط پس از LOTO انجام می‌شود',true],
+      ['RT06','محیط','نشت و موانع پیرامون تجهیز کنترل شده است',false]
+    ],
+    'FACTORY-ELECTRICAL':[
+      ['EL01','تابلو','تابلو بسته، سالم، برچسب‌دار و بدون بخش برقدار قابل تماس است',true],
+      ['EL02','ارت','ارت و هم‌بندی حفاظتی سالم است',true],
+      ['EL03','مجوز','کار برقی توسط فرد صلاحیت‌دار و با مجوز انجام می‌شود',true],
+      ['EL04','LOTO','ایزولاسیون، قفل و آزمون بی‌برقی انجام شده است',true],
+      ['EL05','ابزار','ابزار عایق، فرش، دستکش و تستر مناسب موجود است',true],
+      ['EL06','شرایط محیط','رطوبت، گردوغبار و دسترسی غیرمجاز کنترل شده است',false]
+    ],
+    'FACTORY-CHEMICAL':[
+      ['CH01','شناسایی','نام ماده، برچسب GHS و SDS در دسترس است',true],
+      ['CH02','انبارش','ناسازگاری شیمیایی، تهویه و حوضچه جمع‌آوری رعایت شده است',true],
+      ['CH03','انتقال','ظرف و تجهیزات انتقال سالم و برچسب‌دار هستند',true],
+      ['CH04','PPE','PPE متناسب با SDS استفاده می‌شود',true],
+      ['CH05','اضطراری','چشم‌شوی، دوش و کیت نشت آماده هستند',true],
+      ['CH06','پسماند','پسماند شیمیایی تفکیک و ایمن نگهداری می‌شود',false]
+    ],
+    'FACTORY-EMERGENCY':[
+      ['EM01','اطفا','کپسول‌ها و شبکه اطفا قابل دسترس و معتبر هستند',true],
+      ['EM02','اعلام','آژیر، دتکتور و روش اطلاع‌رسانی آماده است',true],
+      ['EM03','خروج','مسیر خروج و نقاط تجمع باز و علامت‌گذاری شده‌اند',true],
+      ['EM04','تیم واکنش','اعضا، تماس‌ها و وظایف تیم اضطراری مشخص است',true],
+      ['EM05','تجهیزات','جعبه کمک‌های اولیه، برانکارد و تجهیزات نجات آماده‌اند',false],
+      ['EM06','مانور','سناریو و مانور دوره‌ای ثبت و ارزیابی شده است',false]
+    ],
+    'EXPLORATION-CORE-DRILLING':[
+      ['CD01','دستگاه','پایه‌گذاری، تراز، حفاظ و E-stop دستگاه مناسب است',true],
+      ['CD02','Rod handling','جابجایی Rod و Core barrel با ابزار و وضعیت بدنی ایمن انجام می‌شود',true],
+      ['CD03','چرخش','تماس با Rod و اجزای چرخان ممنوع و حفاظ برقرار است',true],
+      ['CD04','فشار','شلنگ، وینچ، کابل و سیستم هیدرولیک سالم است',true],
+      ['CD05','محوطه','کف، گل حفاری، روشنایی و نظم محوطه کنترل شده است',false],
+      ['CD06','ارتباط','ارتباط، کمک‌های اولیه و برنامه انتقال مصدوم برقرار است',true]
+    ],
+    'EXPLORATION-FIELD':[
+      ['FW01','برنامه سفر','مسیر، زمان بازگشت و مسئول تماس ثبت شده است',true],
+      ['FW02','ارتباط','رادیو/تلفن ماهواره‌ای و Check-in دوره‌ای برقرار است',true],
+      ['FW03','زمین','ریسک پرتگاه، ریزش، حیوانات و شرایط جوی ارزیابی شده است',true],
+      ['FW04','نمونه‌برداری','ابزار، حمل نمونه و وضعیت بدنی ایمن است',false],
+      ['FW05','کار انفرادی','کار انفرادی محدود و کنترل Lone worker برقرار است',true],
+      ['FW06','آب و امداد','آب، کمک‌های اولیه و تجهیزات بقا کافی است',true]
+    ],
+    'EXPLORATION-CAMP':[
+      ['CP01','آتش','گاز، بخاری، برق و خاموش‌کننده کمپ ایمن است',true],
+      ['CP02','اسکان','سازه، تهویه، گرمایش و خروج اضطراری مناسب است',true],
+      ['CP03','آب و غذا','آب آشامیدنی و نگهداری مواد غذایی کنترل می‌شود',true],
+      ['CP04','بهداشت','سرویس، پسماند و حشرات/جوندگان کنترل شده‌اند',false],
+      ['CP05','سوخت','سوخت دور از اسکان و با حوضچه نگهداری می‌شود',true],
+      ['CP06','شب','روشنایی، نگهبانی و ارتباط اضطراری برقرار است',false]
+    ],
+    'EXPLORATION-VEHICLE':[
+      ['FV01','خودرو','تایر، ترمز، سوخت و ابزار بازیابی سالم است',true],
+      ['FV02','مسیریابی','نقشه/GPS و مسیر جایگزین آماده است',true],
+      ['FV03','ارتباط','وسیله ارتباطی و زمان‌های تماس مشخص است',true],
+      ['FV04','آب و بقا','آب، غذا، پتو و کمک‌های اولیه کافی است',true],
+      ['FV05','شرایط جوی','سیلاب، برف، گرما و محدودیت دید بررسی شده است',true],
+      ['FV06','راننده','صلاحیت، استراحت و کمربند سرنشینان کنترل شده است',true]
+    ]
+  };
+  return libraries[templateCode]||libraries['MINE-DAILY-001'];
+}
+function renderInspectionItems(){
+  const code=value('iTemplate');
+  let items=state.catalog.checklistItems.filter(x=>x.TemplateCode===code&&String(x.IsActive).toUpperCase()!=='FALSE')
+    .map(x=>[x.ItemCode,x.SectionName,x.ItemText,String(x.IsCritical).toUpperCase()==='TRUE']);
+  if(!items.length)items=defaultInspectionItems(code);
+  field('inspectionChecklist').innerHTML=items.map((x,i)=>`<div class="check-item ${x[3]?'critical':''}" data-item-code="${esc(x[0])}" data-section="${esc(x[1])}" data-critical="${x[3]?'TRUE':'FALSE'}">
+    <div class="check-item-title">${x[3]?'<span class="badge danger">بحرانی</span> ':''}${esc(x[2])}</div>
+    <div class="check-response">
+      <label><input type="radio" name="ci${i}" value="Yes" required> بله</label>
+      <label><input type="radio" name="ci${i}" value="No" required> خیر</label>
+      <label><input type="radio" name="ci${i}" value="N/A" required> نامرتبط</label>
+    </div>
+    <div class="field" style="margin-top:8px"><label>توضیح عدم انطباق</label><input class="ci-note" placeholder="در صورت پاسخ خیر تکمیل شود"></div>
+  </div>`).join('');
+}
+function updateRiskScores(){
+  const initial=numberValue('rIL')*numberValue('rIS');
+  const residual=numberValue('rRL')*numberValue('rRS');
+  [['rInitialBox','rInitialScore','rInitialLevel',initial],['rResidualBox','rResidualScore','rResidualLevel',residual]].forEach(x=>{
+    const level=riskLevel(x[3]);
+    field(x[1]).textContent=faNum(x[3]);field(x[2]).textContent=level;
+    field(x[0]).className='risk-score '+(level==='بحرانی'?'risk-critical':level==='بالا'?'risk-high':level==='متوسط'?'risk-medium':'risk-low');
   });
 }
+function collectOperation(key){
+  const base=operationBase(key);
+  base.shift=value('mShift');base.location=value('mLocation');
+  if(key==='inspection'){
+    const responses=[...document.querySelectorAll('.check-item')].map((el,i)=>{
+      const response=el.querySelector(`input[name="ci${i}"]:checked`)?.value||'';
+      const critical=el.dataset.critical==='TRUE';
+      const note=el.querySelector('.ci-note')?.value.trim()||'';
+      return {responseId:id('IR'),itemCode:el.dataset.itemCode,sectionName:el.dataset.section,itemText:el.querySelector('.check-item-title').innerText.replace('بحرانی','').trim(),response,isCritical:critical,evidenceRequired:response==='No',note,photoCount:0,riskLevel:critical?'بالا':'متوسط',actionRequired:response==='No',actionOwner:'',dueDate:''};
+    });
+    if(responses.some(x=>!x.response))throw new Error('پاسخ همه موارد بازرسی الزامی است');
+    const applicable=responses.filter(x=>x.response!=='N/A');
+    const yes=applicable.filter(x=>x.response==='Yes').length;
+    const no=applicable.filter(x=>x.response==='No');
+    const criticalFailures=no.filter(x=>x.isCritical).length;
+    return {...base,title:'بازرسی: '+field('iTemplate').selectedOptions[0].text,templateCode:value('iTemplate'),inspectionType:field('iTemplate').selectedOptions[0].text,
+      summary:value('iSummary'),responses,compliancePercent:applicable.length?Math.round(yes/applicable.length*100):100,
+      criticalFailures,nonConformities:no.length,overallStatus:criticalFailures?'CriticalStop':no.length?'NonCompliant':'Compliant',
+      workStopped:criticalFailures>0,actionRequired:no.length>0,riskLevel:criticalFailures?'بحرانی':no.length?'بالا':'پایین'};
+  }
+  if(key==='risk'){
+    const initialScore=numberValue('rIL')*numberValue('rIS'),residualScore=numberValue('rRL')*numberValue('rRS');
+    return {...base,title:'ارزیابی ریسک: '+value('rActivity'),method:value('rMethod'),activity:value('rActivity'),hazard:value('rHazard'),consequence:value('rConsequence'),
+      exposedPersons:value('rExposed'),existingControls:value('rExisting'),initialLikelihood:numberValue('rIL'),initialSeverity:numberValue('rIS'),initialScore,initialLevel:riskLevel(initialScore),
+      additionalControls:value('rAdditional'),residualLikelihood:numberValue('rRL'),residualSeverity:numberValue('rRS'),residualScore,residualLevel:riskLevel(residualScore),
+      workDecision:value('rDecision'),actionOwner:value('rOwner'),dueDate:value('rDue'),status:'Submitted',riskLevel:riskLevel(residualScore),
+      actionRequired:residualScore>=15||value('rDecision')==='توقف کار'};
+  }
+  if(key==='permit'){
+    return {...base,title:'مجوز '+value('pType')+': '+value('pJobTitle'),permitType:value('pType'),jobTitle:value('pJobTitle'),jobDescription:value('pJobDescription'),
+      requester:value('pRequester'),responsibleSupervisor:value('pSupervisor'),startAt:value('pStart'),endAt:value('pEnd'),hazards:value('pHazards'),controls:value('pControls'),
+      isolationRequired:checked('pIsolation'),lotoConfirmed:checked('pLOTO'),gasTestRequired:checked('pGasRequired'),gasTestResult:value('pGasResult'),ppe:value('pPPE'),
+      emergencyControls:value('pEmergency'),authorizationStatus:'Requested',riskLevel:'متوسط'};
+  }
+  if(key==='incident'){
+    return {...base,title:value('nType')+': '+value('mLocation'),eventType:value('nType'),eventDateTime:value('nDateTime'),description:value('nDescription'),
+      actualSeverity:value('nActual'),potentialSeverity:value('nPotential'),injuryOccurred:checked('nInjury'),injuredPerson:value('nInjuredPerson'),
+      lostTime:false,assetDamage:'',environmentalImpact:'',immediateActions:value('nImmediate'),areaSecured:checked('nSecured'),notificationStatus:'Initial',
+      directCause:value('nDirectCause'),rootCause:'',investigationStatus:'Open',actionRequired:checked('nActionRequired'),reportedBy:profile().fullName,
+      riskLevel:value('nPotential')};
+  }
+  if(key==='daily'){
+    return {...base,title:'گزارش روزانه '+value('dDate'),reportDate:value('dDate'),headcount:numberValue('dHeadcount'),workHours:numberValue('dWorkHours'),
+      inspectionsCount:numberValue('dInspections'),unsafeConditionsCount:0,toolboxCount:numberValue('dToolbox'),permitsActive:numberValue('dPermits'),
+      incidentsCount:numberValue('dIncidents'),nearMissCount:numberValue('dNearMiss'),openActions:state.actions.filter(a=>a.status!=='بسته').length,
+      criticalRisks:state.operations.filter(o=>o.riskLevel==='بحرانی').length,equipmentDefects:numberValue('dDefects'),environmentalEvents:0,trainingHours:0,
+      keyActivities:value('dActivities'),keyFindings:value('dFindings'),hseSummary:value('dSummary'),supervisorName:value('dSupervisor'),riskLevel:'پایین'};
+  }
+  throw new Error('ماژول نامعتبر است');
+}
+async function syncOperation(op){
+  const actionMap={inspection:'submitInspection',risk:'submitRiskAssessment',permit:'submitPermit',incident:'submitIncident',daily:'submitDailyReport'};
+  try{
+    await apiPost({action:actionMap[op.module],operation:op},{auth:true});
+    op.syncState='synced';op.syncedAt=iso();persist();refreshAll();return true;
+  }catch(err){
+    op.syncState='failed';op.syncError=String(err.message||err);persist();refreshAll();return false;
+  }
+}
+field('moduleForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=field('moduleSubmit');btn.disabled=true;btn.textContent='در حال ذخیره...';
+  try{
+    const op=collectOperation(currentModule);
+    state.operations.unshift(op);persist();
+    const sent=await syncOperation(op);
+    if(op.actionRequired){
+      state.actions.unshift({actionId:id('ACT'),sourceRecordId:op.operationId,unitCode:op.unitCode,unitName:op.unitName,
+        title:'پیگیری '+op.title,description:op.summary||op.additionalControls||op.immediateActions||'اقدام اصلاحی عملیاتی',
+        owner:op.actionOwner||'',dueDate:op.dueDate||'',priority:op.riskLevel||'بالا',status:'باز',verificationMethod:'راستی‌آزمایی میدانی',syncState:'queued'});
+      persist();
+    }
+    toast(sent?'عملیات ذخیره و ارسال شد':'عملیات ذخیره شد و در صف قرار گرفت');
+    go('home');
+  }catch(err){toast(String(err.message||err))}
+  finally{btn.disabled=false;btn.textContent='ذخیره و ارسال عملیات'}
+});
+
+async function boot(){
+  applyTheme(state.preferences?.theme||'corporate');
+  try{
+    showAuthSection('register');
+    await loadPublicCatalog();
+    if(state.account.status==='Active'&&state.account.accessToken){
+      showApp();
+      validateSession();
+      if(isElevatedRole())loadPortfolioSummary();
+    }else if(state.account.requestId){
+      showPreviewApp();
+    }else{
+      showAuth();showAuthSection('register');populateCatalogSelectors();
+    }
+  }catch(err){
+    document.getElementById('authErrorText').textContent=String(err.message||err);
+    showAuth();showAuthSection('error');
+  }
+}
+window.addEventListener('online',()=>{if(state.account.status==='Active')document.getElementById('syncLabel').textContent='حساب فعال'});
+window.addEventListener('offline',()=>{if(!document.getElementById('mainApp').hidden)document.getElementById('syncLabel').textContent='آفلاین'});
+boot();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+
 </script>
 </body>
 </html>

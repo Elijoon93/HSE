@@ -1,0 +1,25 @@
+SafetyManage v4.1 — مراحل استقرار
+
+1) پروژه Apps Script منتشرشده را باز کنید.
+2) کل Code.gs را با فایل زیر جایگزین کنید:
+   apps-script/SafetyManage_Corporate_Access_Gateway_v4_1.gs
+3) ذخیره کنید.
+4) تابع initializeCorporateAccessV41 را Run کنید.
+5) باید Execution completed نمایش داده شود.
+6) Deploy > Manage deployments > Edit
+7) Version = New version
+8) Execute as = Me
+9) Who has access = Anyone
+10) Deploy
+
+Web App URL:
+https://script.google.com/macros/s/AKfycbzvrVe9q3m4RMil5ZtjvXTQwhIWHmzxgFjJ7wtdMt2fAQs3pMQ6mVutoAhDJtTdHFttUA/exec
+
+GitHub:
+- تمام فایل‌های بسته را جایگزین کنید.
+- فایل‌های .github و .nojekyll را حفظ کنید.
+- Commit:
+  feat: add locked corporate branding pending preview themes and dedicated co-owner key
+
+کلید اختصاصی دکتر میثم کوهساری در ZIP نیست.
+فایل خصوصی کلید را جداگانه نگهداری کنید.

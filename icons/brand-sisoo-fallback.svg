@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120">
+<rect width="320" height="120" rx="22" fill="#fff"/>
+<circle cx="60" cy="60" r="35" fill="none" stroke="#F47B20" stroke-width="7"/>
+<circle cx="60" cy="60" r="24" fill="none" stroke="#F47B20" stroke-width="4"/>
+<text x="60" y="67" text-anchor="middle" fill="#F47B20" font-size="18" font-family="Arial" font-weight="800">SIS</text>
+<text x="112" y="51" fill="#F47B20" font-size="18" font-family="Tahoma,Arial" font-weight="700">جنوب شرق ایرانیان</text>
+<text x="112" y="77" fill="#9A4A0B" font-size="14" font-family="Arial" font-weight="700">SISOO</text>
+</svg>

@@ -1,0 +1,90 @@
+{
+  "version": "4.1.0",
+  "program": "SafetyManage Mobile — Mining",
+  "owner": "سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید",
+  "architecture": "central-control-and-separated-operational-sheets",
+  "organizations": [
+    {
+      "code": "ORG-SADAT-SIRIZ",
+      "name": "مجتمع صنعتی و معدنی سادات سیریز",
+      "legalEntity": "مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان",
+      "operatingModel": "MINE_AND_PROCESSING",
+      "sites": [
+        "SADAT-MINE",
+        "SADAT-PLANT"
+      ],
+      "commodity": "IRON_ORE",
+      "stage": "OPERATING"
+    },
+    {
+      "code": "MINE-BENOYD",
+      "name": "معدن مس بنوید",
+      "legalEntity": "مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان",
+      "operatingModel": "MINE_ONLY",
+      "sites": [
+        "BENOYD-MAIN"
+      ],
+      "commodity": "COPPER_POLYMETAL",
+      "stage": "OPERATING"
+    },
+    {
+      "code": "ORG-SOORAK",
+      "name": "مجتمع صنعتی و معدنی سنگ‌آهن سورک",
+      "legalEntity": "مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان",
+      "operatingModel": "MINE_AND_PROCESSING",
+      "sites": [
+        "SOORAK-MINE",
+        "SOORAK-PLANT"
+      ],
+      "commodity": "IRON_ORE",
+      "stage": "OPERATING"
+    },
+    {
+      "code": "ORG-KOHDAM",
+      "name": "معدن سنگ‌آهن کوه دم",
+      "legalEntity": "مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان",
+      "operatingModel": "EXPLORATION_ONLY",
+      "sites": [
+        "KOHDAM-EXPLORATION"
+      ],
+      "commodity": "IRON_ORE",
+      "stage": "EXPLORATION"
+    },
+    {
+      "code": "ORG-SADRABAD",
+      "name": "معدن صدرآباد",
+      "legalEntity": "مجتمع صنعت و معدن ذوب‌آهن جنوب شرق ایرانیان",
+      "operatingModel": "MINE_ONLY",
+      "sites": [
+        "SADRABAD-MINE"
+      ],
+      "commodity": "TO_BE_CONFIRMED",
+      "stage": "ACTIVE",
+      "needsReview": true
+    },
+    {
+      "code": "ORG-KANSAR-HAMOON-SEMNAN",
+      "name": "معدن سنگ‌آهن کانسار هامون سمنان",
+      "legalEntity": "شرکت کانسار هامون",
+      "operatingModel": "MINE_ONLY",
+      "sites": [
+        "KANSAR-HAMOON-MINE"
+      ],
+      "commodity": "IRON_ORE",
+      "stage": "OPERATING",
+      "independentLegalEntity": true
+    }
+  ],
+  "brandHierarchy": {
+    "holding": "FOULAD-YAZD-OFFICIAL",
+    "operatingCompany": "SISOO-OFFICIAL",
+    "policy": "LOCKED_TWO_LEVEL"
+  },
+  "dedicatedAdmin": {
+    "adminCode": "USR-ROOT-002",
+    "name": "دکتر میثم کوهساری",
+    "keyStorage": "PRIVATE_SALTED_HASH",
+    "rawKeyInPublicPackage": false,
+    "binding": "FIRST_SUCCESS_REQUEST_AND_DEVICE"
+  }
+}

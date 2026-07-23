@@ -1,12 +1,23 @@
-# Security Policy
+# Security v4.1
 
-This repository is intended for a public static GitHub Pages deployment.
+## Dedicated administrator key
 
-Do not commit:
-- Google Apps Script API tokens
-- passwords
-- private keys
-- personal data
-- confidential HSE records
+- رمز خام در سورس عمومی ذخیره نشده است.
+- Salt و SHA-256 فقط در شیت خصوصی `GlobalAdmins` نگهداری می‌شوند.
+- کلید فقط با نام رزروشده دکتر میثم کوهساری پذیرفته می‌شود.
+- نخستین استفاده موفق، کلید را به RequestID و DeviceID متصل می‌کند.
+- کلید نمی‌تواند حساب دیگری را فعال کند.
+- نقش صادرشده فقط حساب رزروشده `USR-ROOT-002 / SystemOwner` است.
+- پس از ۵ تلاش ناموفق، مسیر ۳۰ دقیقه قفل می‌شود.
 
-The Google Apps Script endpoint may be public, but requests must require a private token entered locally by the authorized user.
+## Pending preview
+
+- سوابق و شاخص‌های واقعی نمایش داده نمی‌شوند.
+- ثبت، ارسال، مجوز و عملیات قفل هستند.
+- فقط کاتالوگ عمومی سازمان، سایت، ماژول و برند نمایش داده می‌شود.
+
+## Branding
+
+- پروفایل‌های رسمی فولاد یزد و SISOO در دیتاشیت قفل و دارای Protected Range هستند.
+- URL لوگوها از دامنه‌های رسمی تنظیم شده‌اند.
+- fallback محلی فقط هنگام در دسترس نبودن فایل رسمی نمایش داده می‌شود.
