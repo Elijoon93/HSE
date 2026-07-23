@@ -1,0 +1,7 @@
+Copyright (c) 2026 Saeed Dahiri Dehnavi.
+Program: SafetyManage Mobile — Mining
+Owner, sponsor and project supervisor: Saeed Dahiri Dehnavi — HSE Supervisor, Benoyd Mine
+
+All rights reserved.
+
+No permission is granted to copy, modify, distribute, sublicense, sell, or create derivative works from this software without prior written authorization from the copyright holder.

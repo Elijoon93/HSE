@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="description" content="SafetyManage Mobile — Mining؛ وب‌اپلیکیشن موبایل عملیات و گزارش‌دهی HSE معدن">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>SafetyManage Mobile — Mining</title>
+<style>
+:root{
+  --bg:#eef2f6;--surface:#fff;--surface-2:#f7f9fb;--ink:#111827;--muted:#667085;
+  --line:#dfe5ec;--nav:#0b1220;--nav-2:#111b2e;--accent:#2563eb;--accent-2:#1d4ed8;
+  --safe:#0f9f6e;--warn:#d97706;--danger:#dc2626;--shadow:0 12px 32px rgba(15,23,42,.08);
+  --radius:18px;--font:Vazirmatn,Tahoma,Arial,sans-serif
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);font-family:var(--font);color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:560px;margin:0 auto;min-height:100dvh;background:var(--surface-2);position:relative;padding-bottom:92px}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(11,18,32,.97);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 18px 14px;box-shadow:0 8px 24px rgba(11,18,32,.18)}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{width:40px;height:40px;border-radius:12px;background:#fff;color:var(--nav);display:grid;place-items:center;font-weight:900;letter-spacing:-1px}
+.brand h1{font-size:15px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;color:#aeb8ca;margin-top:3px;font-size:11px}
+.icon-btn{width:40px;height:40px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.06);color:#fff;display:grid;place-items:center}
+.unitbar{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.unit-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:7px 11px;font-size:12px;min-width:0}
+.unit-chip b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+.sync-pill{font-size:11px;border-radius:999px;padding:7px 10px;background:rgba(15,159,110,.18);color:#7ce6bd;border:1px solid rgba(124,230,189,.16)}
+main{padding:18px}
+.screen{display:none;animation:fade .18s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(145deg,#111b2e,#0b1220);border-radius:22px;padding:20px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:rgba(37,99,235,.18);left:-65px;top:-75px}
+.hero h2{font-size:19px;margin:0 0 7px;position:relative;z-index:1}
+.hero p{font-size:12px;line-height:1.9;color:#cbd5e1;margin:0;max-width:390px;position:relative;z-index:1}
+.hero-actions{display:flex;gap:9px;margin-top:16px;position:relative;z-index:1}
+.btn{border:0;border-radius:13px;padding:12px 15px;font-weight:800;font-size:13px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-light{background:#fff;color:var(--nav)}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-danger{background:#fff1f2;color:#b91c1c;border:1px solid #fecdd3}
+.btn-block{width:100%}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 11px}
+.section-head h3{font-size:14px;margin:0}
+.section-head span{font-size:11px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.kpi .n{font-size:23px;font-weight:900;letter-spacing:-1px}
+.kpi .l{font-size:11px;color:var(--muted);margin-top:5px}
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quick{border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:15px;text-align:right;min-height:112px;box-shadow:0 3px 12px rgba(15,23,42,.03)}
+.quick svg{width:24px;height:24px;margin-bottom:15px;color:var(--accent)}
+.quick b{display:block;font-size:13px}
+.quick small{display:block;color:var(--muted);font-size:10.5px;line-height:1.7;margin-top:5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:0 4px 18px rgba(15,23,42,.035)}
+.list{display:grid;gap:10px}
+.record{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.record-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.record h4{font-size:13px;margin:0 0 5px}
+.record p{font-size:11px;color:var(--muted);line-height:1.7;margin:0}
+.meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.badge{font-size:10px;padding:5px 8px;border-radius:999px;background:#eef2ff;color:#3730a3}
+.badge.safe{background:#ecfdf3;color:#047857}.badge.warn{background:#fff7ed;color:#b45309}.badge.danger{background:#fff1f2;color:#be123c}.badge.gray{background:#f2f4f7;color:#475467}
+.page-title{margin-bottom:15px}
+.page-title h2{font-size:20px;margin:0 0 6px}
+.page-title p{font-size:12px;color:var(--muted);line-height:1.8;margin:0}
+.type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.type-btn{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:right;min-height:88px}
+.type-btn.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.type-btn b{display:block;font-size:12px}.type-btn small{display:block;font-size:10px;color:var(--muted);margin-top:6px}
+.form-grid{display:grid;gap:12px}
+.field label{display:block;font-size:11px;font-weight:800;margin:0 2px 7px;color:#344054}
+.field input,.field select,.field textarea{width:100%;border:1px solid #d6dde6;background:#fff;border-radius:13px;padding:12px;color:var(--ink);outline:none}
+.field textarea{min-height:96px;resize:vertical;line-height:1.8}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.switch-line{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 13px}
+.switch-line span{font-size:12px;font-weight:700}
+.toggle{appearance:none;width:44px;height:25px;border-radius:999px;background:#cfd6df;position:relative;transition:.2s}
+.toggle:checked{background:var(--safe)}
+.toggle:after{content:"";position:absolute;width:19px;height:19px;border-radius:50%;background:#fff;top:3px;right:3px;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:.2s}
+.toggle:checked:after{right:22px}
+.notice{border-radius:14px;padding:12px 13px;font-size:11px;line-height:1.8;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.empty{text-align:center;padding:32px 16px;color:var(--muted);font-size:12px}
+.settings-group{margin-bottom:14px}
+.settings-group h3{font-size:12px;margin:0 0 9px;color:#344054}
+.connection{display:grid;gap:10px}
+.status-box{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.status-box b{font-size:12px}.status-box small{font-size:10px;color:var(--muted)}
+.bottom-nav{position:fixed;z-index:40;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);height:calc(72px + env(safe-area-inset-bottom));padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);backdrop-filter:blur(18px)}
+.nav-btn{border:0;background:transparent;color:#7a8495;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:9px;border-radius:12px}
+.nav-btn svg{width:21px;height:21px}.nav-btn.active{color:var(--accent);background:#eff6ff}
+.toast{position:fixed;z-index:100;left:50%;bottom:94px;transform:translateX(-50%) translateY(20px);background:#101828;color:#fff;border-radius:12px;padding:11px 14px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;max-width:88%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.sheet{position:fixed;z-index:80;inset:0;background:rgba(15,23,42,.5);display:none;align-items:flex-end}
+.sheet.open{display:flex}
+.sheet-card{width:min(560px,100%);margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));max-height:88dvh;overflow:auto}
+.sheet-handle{width:42px;height:4px;border-radius:99px;background:#d0d5dd;margin:0 auto 17px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.sheet-head h3{font-size:15px;margin:0}
+.close{border:0;background:#f2f4f7;border-radius:10px;width:34px;height:34px}
+@media(min-width:720px){
+ body{padding:24px}
+ .app{min-height:calc(100dvh - 48px);border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(15,23,42,.16)}
+ .bottom-nav{bottom:24px;border-radius:0 0 28px 28px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="topline">
+    <div class="brand">
+      <div class="logo">MS</div>
+      <div><h1>SafetyManage Mobile — Mining</h1><small>با حمایت سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید</small></div>
+    </div>
+    <button class="icon-btn" id="syncTop" aria-label="همگام‌سازی">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 7h-5V2"/><path d="M4 17h5v5"/><path d="M5.6 9a7 7 0 0 1 11.5-2L20 9"/><path d="M18.4 15a7 7 0 0 1-11.5 2L4 15"/></svg>
+    </button>
+  </div>
+  <div class="unitbar">
+    <div class="unit-chip">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M6 21V7l6-4 6 4v14"/><path d="M9 10h6M9 14h6M9 18h6"/></svg>
+      <b id="activeUnitLabel">واحد تعریف نشده</b>
+    </div>
+    <div class="sync-pill" id="syncLabel">آفلاین آماده</div>
+  </div>
+</header>
+
+<main>
+<section class="screen active" id="screen-home">
+  <div class="hero">
+    <h2>ثبت سریع، پیگیری روشن، گزارش یکپارچه</h2>
+    <p>هر واحد اطلاعات خود را ثبت می‌کند؛ همه رکوردها با کد واحد در Google Sheet مرکزی سازمان تجمیع می‌شوند.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" data-go="new">ثبت گزارش</button>
+      <button class="btn btn-light" id="homeSync">ارسال صف</button>
+    </div>
+  </div>
+
+  <div class="section-head"><h3>وضعیت امروز</h3><span id="todayLabel"></span></div>
+  <div class="kpis">
+    <div class="kpi"><div class="n" id="kpiToday">۰</div><div class="l">ثبت امروز</div></div>
+    <div class="kpi"><div class="n" id="kpiQueue">۰</div><div class="l">در انتظار ارسال</div></div>
+    <div class="kpi"><div class="n" id="kpiActions">۰</div><div class="l">اقدام باز</div></div>
+    <div class="kpi"><div class="n" id="kpiCritical">۰</div><div class="l">مورد بحرانی</div></div>
+  </div>
+
+  <div class="section-head"><h3>عملیات سریع</h3><span>فرم‌های میدانی</span></div>
+  <div class="quick-grid" id="quickGrid"></div>
+
+  
+<div class="section-head"><h3>دامنه تخصصی توسعه</h3><span>معدن روباز</span></div>
+<div class="card">
+  <div style="font-size:12px;font-weight:900;margin-bottom:8px">نسخه فعلی: گزارش‌دهی و پیگیری میدانی</div>
+  <div style="font-size:10.8px;color:var(--muted);line-height:1.9">
+    توسعه بعدی شامل دستورالعمل‌های عملیات معدن روباز، ارزیابی ریسک فعالیت‌ها، کنترل برم و جاده معدنی،
+    آتشباری، حفاری، بارگیری و حمل، دامپ، سنگ‌شکن، تعمیرات، شرایط اضطراری و کنترل‌های حیاتی خواهد بود.
+  </div>
+</div>
+
+<div class="section-head"><h3>آخرین رکوردها</h3><button class="btn btn-outline" data-go="records" style="padding:7px 10px;font-size:10px">مشاهده همه</button></div>
+  <div class="list" id="homeRecords"></div>
+</section>
+
+<section class="screen" id="screen-new">
+  <div class="page-title"><h2>ثبت رکورد جدید</h2><p>نوع گزارش را انتخاب کنید و اطلاعات ضروری را در یک صفحه تکمیل کنید.</p></div>
+  <div class="type-grid" id="typeGrid"></div>
+  <form class="card form-grid" id="recordForm">
+    <div class="two">
+      <div class="field"><label>واحد</label><select id="fUnit" required></select></div>
+      <div class="field"><label>شیفت</label><select id="fShift"><option>روز</option><option>شب</option><option>اداری</option></select></div>
+    </div>
+    <div class="two">
+      <div class="field"><label>نام گزارش‌دهنده</label><input id="fReporter" required placeholder="نام و نام خانوادگی"></div>
+      <div class="field"><label>سمت</label><input id="fRole" placeholder="مسئول ایمنی، سرپرست..."></div>
+    </div>
+    <div class="field"><label>عنوان کوتاه</label><input id="fTitle" required placeholder="عنوان روشن و قابل پیگیری"></div>
+    <div class="field"><label>محل / ناحیه</label><input id="fLocation" placeholder="کارگاه، جبهه‌کار، دستگاه یا مسیر"></div>
+    <div class="field"><label>شرح مشاهده یا رویداد</label><textarea id="fDescription" required placeholder="چه اتفاقی افتاد یا چه وضعیتی مشاهده شد؟"></textarea></div>
+    <div class="two">
+      <div class="field"><label>سطح ریسک</label><select id="fRisk"><option>پایین</option><option selected>متوسط</option><option>بالا</option><option>بحرانی</option></select></div>
+      <div class="field"><label>وضعیت</label><select id="fStatus"><option>ثبت‌شده</option><option>در حال پیگیری</option><option>بسته</option></select></div>
+    </div>
+    <div class="switch-line"><span>کار متوقف شد</span><input class="toggle" type="checkbox" id="fStopped"></div>
+    <div class="field"><label>اقدام فوری انجام‌شده</label><textarea id="fImmediate" placeholder="ایمن‌سازی، توقف، اطلاع‌رسانی یا اصلاح فوری"></textarea></div>
+    <div class="switch-line"><span>اقدام اصلاحی نیاز دارد</span><input class="toggle" type="checkbox" id="fNeedsAction"></div>
+    <div id="actionFields" style="display:none" class="form-grid">
+      <div class="two">
+        <div class="field"><label>مسئول اقدام</label><input id="fOwner"></div>
+        <div class="field"><label>مهلت</label><input type="date" id="fDue"></div>
+      </div>
+    </div>
+    <div class="notice">رکورد ابتدا روی دستگاه ذخیره می‌شود. در صورت تنظیم اتصال Google Sheet، ارسال فوری یا صف آفلاین انجام خواهد شد.</div>
+    <button class="btn btn-primary btn-block" type="submit">ذخیره و ارسال</button>
+  </form>
+</section>
+
+<section class="screen" id="screen-records">
+  <div class="page-title"><h2>سوابق واحد</h2><p>رکوردهای ذخیره‌شده روی این دستگاه و وضعیت ارسال آن‌ها.</p></div>
+  <div class="card" style="margin-bottom:12px">
+    <div class="two">
+      <div class="field"><label>جست‌وجو</label><input id="recordSearch" placeholder="عنوان، محل یا شرح"></div>
+      <div class="field"><label>وضعیت ارسال</label><select id="syncFilter"><option value="">همه</option><option value="queued">در صف</option><option value="synced">ارسال‌شده</option><option value="failed">خطادار</option></select></div>
+    </div>
+  </div>
+  <div class="list" id="recordsList"></div>
+</section>
+
+<section class="screen" id="screen-actions">
+  <div class="page-title"><h2>اقدامات اصلاحی</h2><p>اقدامات ایجادشده از رکوردهای نیازمند پیگیری.</p></div>
+  <div class="list" id="actionsList"></div>
+</section>
+
+<section class="screen" id="screen-settings">
+  <div class="page-title"><h2>تنظیمات</h2><p>واحد فعال، هویت گزارش‌دهنده و اتصال به Google Sheet مرکزی.</p></div>
+  <div class="card settings-group">
+    <h3>مشخصات محلی</h3>
+    <div class="form-grid">
+      <div class="field"><label>واحد پیش‌فرض</label><select id="sUnit"></select></div>
+      <div class="field"><label>نام گزارش‌دهنده</label><input id="sReporter"></div>
+      <div class="field"><label>سمت</label><input id="sRole"></div>
+      <div class="field"><label>نام سایت / معدن</label><input id="sSite"></div>
+    </div>
+  </div>
+  <div class="card settings-group">
+    <h3>اتصال Google Sheet</h3>
+    <div class="connection">
+      <div class="field"><label>نشانی Apps Script Web App</label><input id="sEndpoint" dir="ltr" placeholder="نشانی Web App از config.js خوانده می‌شود"></div>
+      <div class="field"><label>توکن API</label><input id="sToken" dir="ltr" type="password"></div>
+      <div class="status-box"><div><b id="connectionTitle">اتصال تنظیم نشده</b><small id="connectionText">نشانی Web App و توکن را ثبت کنید.</small></div><span class="badge gray" id="connectionBadge">محلی</span></div>
+      <div class="two">
+        <button class="btn btn-outline" id="testConnection" type="button">تست اتصال</button>
+        <button class="btn btn-outline" id="loadUnits" type="button">دریافت واحدها</button>
+      </div>
+    </div>
+  </div>
+  <div class="card settings-group">
+    <h3>داده و پشتیبان</h3>
+    <div class="form-grid">
+      <button class="btn btn-primary btn-block" id="saveSettings" type="button">ذخیره تنظیمات</button>
+      <button class="btn btn-outline btn-block" id="exportData" type="button">خروجی پشتیبان JSON</button>
+      <button class="btn btn-danger btn-block" id="clearData" type="button">پاک‌کردن داده‌های محلی</button>
+    </div>
+  </div>
+  <div class="notice">این نسخه برای GitHub Pages ایمن‌سازی شده است: توکن داخل سورس قرار ندارد و فقط در مرورگر همین دستگاه ذخیره می‌شود. فایل را می‌توان عمومی منتشر کرد، اما توکن را عمومی نکنید.</div>
+</section>
+
+<section class="card" style="margin-top:22px;text-align:center">
+  <div style="font-size:10px;color:var(--muted);margin-bottom:5px">حامی و ناظر پروژه</div>
+  <div style="font-size:15px;font-weight:900;letter-spacing:.2px">سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید</div>
+  <div style="font-size:10.5px;color:var(--muted);line-height:1.8;margin-top:6px">
+    حامی، ناظر و صاحب امتیاز پروژه موبایل HSE معدن بنوید
+  </div>
+  <a href="https://www.linkedin.com/in/saeed-dahiri-dehnavi-668a0b173" target="_blank" rel="noopener noreferrer"
+     class="btn btn-primary" style="display:inline-flex;align-items:center;justify-content:center;margin-top:13px;text-decoration:none">
+    ارتباط و سفارش از طریق LinkedIn
+  </a>
+</section>
+
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-screen="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg><span>خانه</span></button>
+  <button class="nav-btn" data-screen="new"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg><span>ثبت</span></button>
+  <button class="nav-btn" data-screen="records"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>سوابق</span></button>
+  <button class="nav-btn" data-screen="actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>اقدامات</span></button>
+  <button class="nav-btn" data-screen="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H3v-4h.2a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V3h4v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg><span>تنظیمات</span></button>
+</nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="./config.js"></script>
+<script>
+const APP_VERSION='1.0.1';
+const PUBLIC_CONFIG=window.MANAGESAFETY_CONFIG||{};
+const DEFAULT_ENDPOINT=String(PUBLIC_CONFIG.endpoint||'').trim();
+const SPONSOR_NAME=String(PUBLIC_CONFIG.sponsor||'سعید دهیری ده نوی — سرپرست ایمنی معدن بنوید').trim();
+const STORE_KEY='managesafety_mobile_v1';
+const defaultUnits=[
+  {UnitCode:'UNIT-001',UnitName:'واحد معدن و استخراج',SiteName:'سایت اصلی',Active:'TRUE'},
+  {UnitCode:'UNIT-002',UnitName:'واحد فرآوری',SiteName:'کارخانه',Active:'TRUE'},
+  {UnitCode:'UNIT-003',UnitName:'واحد تعمیرات و نگهداری',SiteName:'تعمیرگاه',Active:'TRUE'},
+  {UnitCode:'UNIT-004',UnitName:'واحد اکتشاف و حفاری',SiteName:'اکتشاف',Active:'TRUE'},
+  {UnitCode:'UNIT-005',UnitName:'پیمانکاران',SiteName:'کارگاه‌های پیمانکاری',Active:'TRUE'}
+];
+const types=[
+  ['unsafe','وضعیت ناایمن','ثبت خطر یا نقص محیطی'],
+  ['inspection','بازرسی','کنترل میدانی و تجهیزات'],
+  ['incident','حادثه / شبه‌حادثه','ثبت رویداد و اقدام فوری'],
+  ['ptw','مجوز کار','فعالیت پرریسک و کنترل‌ها'],
+  ['toolbox','جلسه ایمنی','Toolbox و آموزش کوتاه'],
+  ['daily','گزارش روزانه','جمع‌بندی وضعیت واحد']
+];
+
+let state=loadState();
+let currentType='unsafe';
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE_KEY)||'{}');
+    return {
+      settings:{
+        unitCode:'UNIT-001',
+        reporter:'',
+        role:'',
+        site:'',
+        endpoint:DEFAULT_ENDPOINT,
+        token:'',
+        ...(s.settings||{}),
+        endpoint:(s.settings&&s.settings.endpoint)||DEFAULT_ENDPOINT
+      },
+      units:Array.isArray(s.units)&&s.units.length?s.units:defaultUnits,
+      records:Array.isArray(s.records)?s.records:[],
+      actions:Array.isArray(s.actions)?s.actions:[]
+    };
+  }catch(_){
+    return {
+      settings:{unitCode:'UNIT-001',reporter:'',role:'',site:'',endpoint:DEFAULT_ENDPOINT,token:''},
+      units:defaultUnits,
+      records:[],
+      actions:[]
+    };
+  }
+}
+function saveState(){localStorage.setItem(STORE_KEY,JSON.stringify(state));refreshAll()}
+function id(prefix){return prefix+'-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,7).toUpperCase()}
+function iso(){return new Date().toISOString()}
+function faNum(v){return String(v).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])}
+function faDate(d=new Date()){return new Intl.DateTimeFormat('fa-IR',{year:'numeric',month:'2-digit',day:'2-digit'}).format(d)}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function unitByCode(code){return state.units.find(u=>u.UnitCode===code)||state.units[0]||{UnitCode:'',UnitName:'واحد تعریف نشده'}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function badgeRisk(r){return r==='بحرانی'?'danger':r==='بالا'?'warn':r==='پایین'?'safe':'gray'}
+
+function go(screen){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id==='screen-'+screen));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.screen===screen));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(screen==='records')renderRecords();
+  if(screen==='actions')renderActions();
+}
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.screen)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+
+function renderTypes(){
+  const html=types.map(t=>`<button class="type-btn ${t[0]===currentType?'active':''}" type="button" data-type="${t[0]}"><b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
+  document.getElementById('typeGrid').innerHTML=html;
+  document.getElementById('quickGrid').innerHTML=types.map(t=>`<button class="quick" data-quick="${t[0]}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M3 12h18"/></svg>
+    <b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
+  document.querySelectorAll('[data-type]').forEach(b=>b.onclick=()=>{currentType=b.dataset.type;renderTypes()});
+  document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{currentType=b.dataset.quick;renderTypes();go('new')});
+}
+
+function fillUnitSelects(){
+  const opts=state.units.filter(u=>String(u.Active).toUpperCase()!=='FALSE').map(u=>`<option value="${esc(u.UnitCode)}">${esc(u.UnitName)} — ${esc(u.UnitCode)}</option>`).join('');
+  ['fUnit','sUnit'].forEach(id=>document.getElementById(id).innerHTML=opts);
+  document.getElementById('fUnit').value=state.settings.unitCode;
+  document.getElementById('sUnit').value=state.settings.unitCode;
+  document.getElementById('activeUnitLabel').textContent=unitByCode(state.settings.unitCode).UnitName;
+}
+
+function refreshAll(){
+  fillUnitSelects();
+  renderTypes();
+  const today=new Date().toISOString().slice(0,10);
+  const todayRows=state.records.filter(r=>(r.submittedAtISO||'').slice(0,10)===today);
+  document.getElementById('todayLabel').textContent=faDate();
+  document.getElementById('kpiToday').textContent=faNum(todayRows.length);
+  document.getElementById('kpiQueue').textContent=faNum(state.records.filter(r=>r.syncState==='queued'||r.syncState==='failed').length);
+  document.getElementById('kpiActions').textContent=faNum(state.actions.filter(a=>a.status!=='بسته').length);
+  document.getElementById('kpiCritical').textContent=faNum(state.records.filter(r=>r.riskLevel==='بحرانی').length);
+  renderHomeRecords();renderRecords();renderActions();
+  document.getElementById('syncLabel').textContent=state.settings.endpoint?'اتصال آماده':'آفلاین آماده';
+  document.getElementById('sReporter').value=state.settings.reporter||'';
+  document.getElementById('sRole').value=state.settings.role||'';
+  document.getElementById('sSite').value=state.settings.site||'';
+  document.getElementById('sEndpoint').value=state.settings.endpoint||'';
+  document.getElementById('sToken').value=state.settings.token||'';
+  document.getElementById('fReporter').value=state.settings.reporter||'';
+  document.getElementById('fRole').value=state.settings.role||'';
+}
+
+function recordCard(r){
+  const t=types.find(x=>x[0]===r.recordSubtype)?.[1]||r.recordType;
+  const sync=r.syncState==='synced'?'<span class="badge safe">ارسال‌شده</span>':r.syncState==='failed'?'<span class="badge danger">خطای ارسال</span>':'<span class="badge warn">در صف</span>';
+  return `<article class="record"><div class="record-top"><div><h4>${esc(r.title)}</h4><p>${esc(t)} · ${esc(r.location||'بدون محل')}</p></div><span class="badge ${badgeRisk(r.riskLevel)}">${esc(r.riskLevel)}</span></div>
+    <div class="meta">${sync}<span class="badge gray">${esc(r.unitName)}</span><span class="badge gray">${esc(r.submittedAtJalali)}</span></div></article>`;
+}
+function renderHomeRecords(){
+  const rows=[...state.records].sort((a,b)=>(b.submittedAtISO||'').localeCompare(a.submittedAtISO||'')).slice(0,3);
+  document.getElementById('homeRecords').innerHTML=rows.length?rows.map(recordCard).join(''):'<div class="empty card">هنوز رکوردی ثبت نشده است.</div>';
+}
+function renderRecords(){
+  const q=(document.getElementById('recordSearch')?.value||'').trim().toLowerCase();
+  const sf=document.getElementById('syncFilter')?.value||'';
+  const rows=[...state.records].filter(r=>{
+    const text=[r.title,r.description,r.location,r.unitName].join(' ').toLowerCase();
+    return (!q||text.includes(q))&&(!sf||r.syncState===sf);
+  }).sort((a,b)=>(b.submittedAtISO||'').localeCompare(a.submittedAtISO||''));
+  document.getElementById('recordsList').innerHTML=rows.length?rows.map(recordCard).join(''):'<div class="empty card">رکوردی با این فیلتر پیدا نشد.</div>';
+}
+function renderActions(){
+  const rows=[...state.actions].sort((a,b)=>(a.dueDate||'9999').localeCompare(b.dueDate||'9999'));
+  document.getElementById('actionsList').innerHTML=rows.length?rows.map(a=>`<article class="record"><div class="record-top"><div><h4>${esc(a.title)}</h4><p>مسئول: ${esc(a.owner||'تعیین نشده')} · مهلت: ${esc(a.dueDate||'—')}</p></div><span class="badge ${a.priority==='بحرانی'?'danger':a.priority==='بالا'?'warn':'gray'}">${esc(a.status)}</span></div><div class="meta"><span class="badge gray">${esc(a.unitName)}</span><span class="badge gray">${esc(a.actionId)}</span></div></article>`).join(''):'<div class="empty card">اقدام اصلاحی بازی وجود ندارد.</div>';
+}
+
+document.getElementById('fNeedsAction').addEventListener('change',e=>document.getElementById('actionFields').style.display=e.target.checked?'grid':'none');
+document.getElementById('recordSearch').addEventListener('input',renderRecords);
+document.getElementById('syncFilter').addEventListener('change',renderRecords);
+
+document.getElementById('recordForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const unit=unitByCode(document.getElementById('fUnit').value);
+  const now=new Date();
+  const record={
+    recordId:id('REC'),submittedAtISO:now.toISOString(),submittedAtJalali:faDate(now),
+    unitCode:unit.UnitCode,unitName:unit.UnitName,site:state.settings.site||unit.SiteName||'',
+    shift:document.getElementById('fShift').value,reporterName:document.getElementById('fReporter').value.trim(),
+    reporterRole:document.getElementById('fRole').value.trim(),recordType:types.find(x=>x[0]===currentType)?.[1]||currentType,
+    recordSubtype:currentType,title:document.getElementById('fTitle').value.trim(),description:document.getElementById('fDescription').value.trim(),
+    location:document.getElementById('fLocation').value.trim(),riskLevel:document.getElementById('fRisk').value,
+    severity:document.getElementById('fRisk').value,status:document.getElementById('fStatus').value,
+    workStopped:document.getElementById('fStopped').checked,immediateAction:document.getElementById('fImmediate').value.trim(),
+    actionRequired:document.getElementById('fNeedsAction').checked,actionOwner:document.getElementById('fOwner').value.trim(),
+    dueDate:document.getElementById('fDue').value,latitude:'',longitude:'',photoCount:0,
+    deviceId:getDeviceId(),appVersion:APP_VERSION,syncSource:'Mobile Web',syncState:'queued'
+  };
+  state.records.unshift(record);
+  if(record.actionRequired){
+    state.actions.unshift({
+      actionId:id('ACT'),sourceRecordId:record.recordId,unitCode:record.unitCode,unitName:record.unitName,
+      title:'اقدام اصلاحی: '+record.title,description:record.immediateAction||record.description,
+      owner:record.actionOwner,dueDate:record.dueDate,priority:record.riskLevel,status:'باز',verificationMethod:'بازدید و ثبت شواهد'
+    });
+  }
+  saveState();
+  const sent=await syncOne(record);
+  document.getElementById('recordForm').reset();
+  document.getElementById('fUnit').value=state.settings.unitCode;
+  document.getElementById('fReporter').value=state.settings.reporter||'';
+  document.getElementById('fRole').value=state.settings.role||'';
+  document.getElementById('actionFields').style.display='none';
+  toast(sent?'رکورد ذخیره و به Google Sheet ارسال شد':'رکورد ذخیره شد و در صف ارسال قرار گرفت');
+  go('home');
+});
+
+function getDeviceId(){
+  let v=localStorage.getItem('ms_device_id');
+  if(!v){v='DEV-'+Math.random().toString(36).slice(2,10).toUpperCase();localStorage.setItem('ms_device_id',v)}
+  return v;
+}
+
+async function apiPost(body){
+  if(!state.settings.endpoint)throw new Error('اتصال تنظیم نشده');
+  const response=await fetch(state.settings.endpoint,{
+    method:'POST',redirect:'follow',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({...body,token:state.settings.token})
+  });
+  const text=await response.text();
+  let data;try{data=JSON.parse(text)}catch(_){throw new Error('پاسخ نامعتبر از سرویس')}
+  if(!data.ok)throw new Error(data.error||'خطای سرویس');
+  return data;
+}
+async function syncOne(record){
+  if(!state.settings.endpoint)return false;
+  try{
+    await apiPost({action:'submitRecord',record});
+    record.syncState='synced';record.syncedAt=iso();saveState();
+    const related=state.actions.filter(a=>a.sourceRecordId===record.recordId&&a.syncState!=='synced');
+    for(const action of related){
+      await apiPost({action:'submitAction',correctiveAction:action});
+      action.syncState='synced';
+    }
+    saveState();return true;
+  }catch(err){record.syncState='failed';record.syncError=String(err.message||err);saveState();return false}
+}
+async function syncQueue(){
+  const pending=state.records.filter(r=>r.syncState!=='synced');
+  if(!pending.length){toast('صف ارسال خالی است');return}
+  if(!state.settings.endpoint){toast('ابتدا اتصال Google Sheet را تنظیم کنید');go('settings');return}
+  document.getElementById('syncLabel').textContent='در حال ارسال...';
+  let ok=0;
+  for(const r of pending){if(await syncOne(r))ok++}
+  document.getElementById('syncLabel').textContent='اتصال آماده';
+  toast(`${faNum(ok)} رکورد ارسال شد`);
+}
+document.getElementById('syncTop').onclick=syncQueue;
+document.getElementById('homeSync').onclick=syncQueue;
+
+document.getElementById('saveSettings').onclick=()=>{
+  state.settings.unitCode=document.getElementById('sUnit').value;
+  state.settings.reporter=document.getElementById('sReporter').value.trim();
+  state.settings.role=document.getElementById('sRole').value.trim();
+  state.settings.site=document.getElementById('sSite').value.trim();
+  state.settings.endpoint=document.getElementById('sEndpoint').value.trim();
+  state.settings.token=document.getElementById('sToken').value.trim();
+  saveState();toast('تنظیمات ذخیره شد');
+};
+document.getElementById('testConnection').onclick=async()=>{
+  const endpoint=document.getElementById('sEndpoint').value.trim();
+  const token=document.getElementById('sToken').value.trim();
+  if(!endpoint){toast('نشانی Web App وارد نشده');return}
+  try{
+    const url=new URL(endpoint);url.searchParams.set('action','health');if(token)url.searchParams.set('token',token);
+    const res=await fetch(url,{redirect:'follow'});const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'خطا');
+    document.getElementById('connectionTitle').textContent='اتصال برقرار است';
+    document.getElementById('connectionText').textContent='Google Sheets Gateway v'+(data.version||'');
+    document.getElementById('connectionBadge').textContent='متصل';
+    document.getElementById('connectionBadge').className='badge safe';
+    toast('تست اتصال موفق بود');
+  }catch(err){
+    document.getElementById('connectionTitle').textContent='اتصال ناموفق';
+    document.getElementById('connectionText').textContent=String(err.message||err);
+    document.getElementById('connectionBadge').textContent='خطا';
+    document.getElementById('connectionBadge').className='badge danger';
+    toast('تست اتصال ناموفق بود');
+  }
+};
+document.getElementById('loadUnits').onclick=async()=>{
+  const endpoint=document.getElementById('sEndpoint').value.trim();
+  const token=document.getElementById('sToken').value.trim();
+  if(!endpoint){toast('نشانی Web App وارد نشده');return}
+  try{
+    const url=new URL(endpoint);url.searchParams.set('action','bootstrap');if(token)url.searchParams.set('token',token);
+    const res=await fetch(url,{redirect:'follow'});const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'خطا');
+    const units=(data.units||[]).filter(u=>u.UnitCode&&u.UnitName);
+    if(!units.length)throw new Error('واحد فعالی در شیت پیدا نشد');
+    state.units=units;saveState();toast(`${faNum(units.length)} واحد دریافت شد`);
+  }catch(err){toast('دریافت واحدها ناموفق بود: '+String(err.message||err))}
+};
+document.getElementById('exportData').onclick=()=>{
+  const blob=new Blob([JSON.stringify({...state,exportedAt:iso(),appVersion:APP_VERSION},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ManageSafety-Mobile-Backup-'+Date.now()+'.json';a.click();URL.revokeObjectURL(a.href)
+};
+document.getElementById('clearData').onclick=()=>{
+  if(!confirm('تمام رکوردها و تنظیمات محلی پاک شوند؟'))return;
+  localStorage.removeItem(STORE_KEY);location.reload()
+};
+
+refreshAll();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
