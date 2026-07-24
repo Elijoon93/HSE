@@ -1,27 +1,20 @@
 {
-  "name": "SafetyManage Mobile — Mining v4.1.1",
-  "short_name": "SafetyManage",
-  "description": "سامانه موبایل HSE با پیش‌نمایش مهمان و منوهای عملیاتی قفل‌شده تا زمان فعال‌سازی",
-  "start_url": "./",
+  "name": "Safety Management — Enterprise HSE Web Platform",
+  "short_name": "Safety Management",
+  "description": "وب‌اپلیکیشن یکپارچه مدیریت HSE برای معدن و صنایع",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#eef2f6",
-  "theme_color": "#0b1220",
+  "background_color": "#f4f7fb",
+  "theme_color": "#102a43",
   "lang": "fa",
   "dir": "rtl",
   "icons": [
     {
-      "src": "./icons/icon.svg",
+      "src": "assets/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-maskable.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }

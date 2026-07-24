@@ -1,0 +1,19 @@
+بسته آماده آپلود Safety Management
+
+برای cPanel:
+تمام فایل‌های همین پوشه را داخل public_html آپلود کنید.
+
+ساختار صحیح:
+public_html/
+  index.html
+  offline.html
+  manifest.webmanifest
+  service-worker.js
+  .nojekyll
+  assets/
+
+برای GitHub Pages:
+تمام فایل‌ها را در ریشه مخزن قرار دهید و Pages را از Branch اصلی / Root فعال کنید.
+
+فایل شروع سایت:
+index.html
